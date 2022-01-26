@@ -1,4 +1,3 @@
-import 'package:ecommerce_app/helper/constance.dart';
 import 'package:ecommerce_app/helper/sizedConfig.dart';
 import 'package:ecommerce_app/models/product.dart';
 import 'package:ecommerce_app/viewsModel/model_view_cart.dart';
