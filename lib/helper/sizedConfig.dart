@@ -8,7 +8,7 @@ class SizeConfig {
   static MediaQueryData? _mediaQueryData;
 
   void init(BuildContext context) {
-    print('you are in the init state of size config ');
+    //print('you are in the init state of size config ');
     _mediaQueryData = MediaQuery.of(context);
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;

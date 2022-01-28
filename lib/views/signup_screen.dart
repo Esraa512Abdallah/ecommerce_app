@@ -14,13 +14,17 @@ import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatelessWidget{
 
- static const  String id ="SignUpScreen" ;
+ //static const  String id ="SignUpScreen" ;
  final GlobalKey<FormState> _globalKey = GlobalKey();
- late String _email ,_password ;
+  String? _email ,_password ;
  final _auth = Auth();
 
   @override
   Widget build(BuildContext context) {
+
+    SizeConfig().init(context);
+
+
     // TODO: implement build
     return Scaffold(
         backgroundColor: Colors.grey[200],
@@ -91,7 +95,7 @@ class SignUpScreen extends StatelessWidget{
                               iconcolor: TealColor,
                               keyboardType: TextInputType.emailAddress,
                               onClick: (value){
-                                _email =value! ;
+                                _email =value ;
                               },
 
 
@@ -105,7 +109,7 @@ class SignUpScreen extends StatelessWidget{
                               iconcolor: TealColor,
                               keyboardType: TextInputType.visiblePassword,
                               onClick: (value){
-                                _password = value! ;
+                                _password = value ;
                               },
 
                             ),
@@ -130,16 +134,16 @@ class SignUpScreen extends StatelessWidget{
                                       {
                                         _globalKey.currentState!.reset();
                                    try {
-                                        final result=  await _auth.signUp(_email.trim(), _password.trim());
+                                        final result=  await _auth.signUp(_email!.trim(), _password!.trim());
 
                                         modelhud.ChangeIsLoading(false);
 
-                                        Navigator.pushNamed(context, "HomeScreen");
+                                        Navigator.pushNamed(context, "UserHomeScreen");
 
                                         }  catch (e) {
                                           modelhud.ChangeIsLoading(false);
 
-
+                                             print(e);
                                            Fluttertoast.showToast(
                                               msg: e.toString(),
                                               toastLength: Toast.LENGTH_LONG,

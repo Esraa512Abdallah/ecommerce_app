@@ -1,4 +1,8 @@
+
+
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class CustomLogo extends StatelessWidget{
   @override
@@ -10,9 +14,8 @@ class CustomLogo extends StatelessWidget{
       children: [
         Image.asset("assets/icons/buy.png",),
         Positioned(
-
-          bottom: 63,
-          child:Text('Eyeliner Store',
+          bottom: 60,
+          child:Text("Eyeliner Store",
             style: TextStyle(
               fontSize: 30,
               fontFamily:'Pacifico',
@@ -23,3 +26,4 @@ class CustomLogo extends StatelessWidget{
   }
 
 }
+

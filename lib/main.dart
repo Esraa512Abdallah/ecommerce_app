@@ -2,6 +2,8 @@ import 'package:ecommerce_app/views/admin/add_product.dart';
 import 'package:ecommerce_app/views/admin/admin_home_screen.dart';
 import 'package:ecommerce_app/views/admin/edit_product.dart';
 import 'package:ecommerce_app/views/admin/manage_product.dart';
+import 'package:ecommerce_app/views/admin/order_details_screen.dart';
+import 'package:ecommerce_app/views/admin/order_screen.dart';
 import 'package:ecommerce_app/views/user/cart_screen.dart';
 import 'package:ecommerce_app/views/user/product_info_screen.dart';
 import 'package:ecommerce_app/views/user/user_home_screen.dart';
@@ -16,6 +18,7 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   runApp(MyApp());
 }
 
@@ -33,9 +36,10 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         initialRoute: "UserHomeScreen",
         routes: {
-          "LoginScreen": (context) => LoginScreen(),
+          "LoginScreen ": (context) => LoginScreen(),
           "SignUpScreen": (context) => SignUpScreen(),
           "AdminHomeScreen": (context) => AdminHomeScreen(),
           "AddProductScreen": (context) => AddProductScreen(),
@@ -44,6 +48,8 @@ class MyApp extends StatelessWidget {
           "UserHomeScreen": (context) => UserHomeScreen(),
           "ProductInfo": (context) => ProductInfo(),
           "CartScreen":(context)=>CartScreen(),
+          "OrderScreen":(context)=>OrderScreen(),
+          "OrderDetailsScreen":(context)=>OrderDetailsScreen(),
         },
       ),
     );

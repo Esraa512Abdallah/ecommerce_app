@@ -14,7 +14,7 @@ import 'package:path/path.dart';
 
 class AddProductScreen extends StatefulWidget{
   static const String  id ="AddProductScreen";
-  
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -31,8 +31,8 @@ class AddProductScreenState extends State<AddProductScreen> {
 
 
   XFile? selectedImage ;
-    XFile? selectedPhoto ;
-    int x = 0 ;
+  XFile? selectedPhoto ;
+  int x = 0 ;
 
 
 
@@ -46,10 +46,21 @@ class AddProductScreenState extends State<AddProductScreen> {
     return Scaffold(
       appBar:  AppBar(
 
-        backgroundColor: Teal2Color,
+        leading: GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, "AdminHomeScreen");
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: TealColor,
+              size: 35,
+            )),
+
+        elevation: 0,
+        backgroundColor: Colors.grey[200],
         centerTitle: true,
         title: Text("Add Product" , style:  TextStyle(
-            fontWeight: FontWeight.w500 , fontSize:25 ,color: Colors.white,fontFamily: 'Pacifico'
+            fontWeight: FontWeight.w500 , fontSize:25 ,color:TealColor,fontFamily: 'Pacifico'
         ),),
 
 
@@ -67,12 +78,12 @@ class AddProductScreenState extends State<AddProductScreen> {
 
               child:  (x==1)?(selectedImage == null ? null :
               Image.file(File(selectedImage!.path),
-                          width: SizeConfig.defaultSize!*30,
-                          height: SizeConfig.defaultSize!*30,))
+                width: SizeConfig.defaultSize!*30,
+                height: SizeConfig.defaultSize!*30,))
                   :(x==2)?(selectedPhoto == null ? null :
               Image.file(File(selectedPhoto!.path),
-                  width: SizeConfig.defaultSize!*30,
-                  height: SizeConfig.defaultSize!*30,)):null,
+                width: SizeConfig.defaultSize!*30,
+                height: SizeConfig.defaultSize!*30,)):null,
 
             ),
 
@@ -85,15 +96,15 @@ class AddProductScreenState extends State<AddProductScreen> {
                     onPressed: (){
                       x=1;
                       PickerGallery();
-                      },
+                    },
                     icon:Icon(Icons.image , color: Colors.black,size: 35,),
                   ),
 
                   IconButton(
                     onPressed: (){
-                       x=2;
-                       PickerCamera();
-                      },
+                      x=2;
+                      PickerCamera();
+                    },
                     icon:Icon(Icons.camera_alt , color: Colors.black,size: 35,),
                   ),
                 ],
@@ -142,46 +153,63 @@ class AddProductScreenState extends State<AddProductScreen> {
             SizedBox(height: SizeConfig.defaultSize!*2,),
 
             Builder(
-              builder: (context) {
-                return FlatButton(
-                    onPressed: (){
-                      if(_globalKey.currentState!.validate()){
+                builder: (context) {
+                  return Container(
+                    padding: EdgeInsets.only(top: SizeConfig.defaultSize!*1,left: 60,right: 60),
 
-                        _globalKey.currentState!.save();
-                        if(x==1){
-                          UploadImage(context);
-                        }else if(x==2){
-                          Uploadphoto(context);
-                        }
+                    child: RaisedButton(
 
 
-                        _store.addProduct(Product(
-                          pName :_name,
-                          pPrice: _price,
-                          pDescription: _description,
-                          pCategory: _catogry,
-                          pImageUrl: _imageUrl,
-
-                        ));
+                     color: TealColor,
 
 
-                        _globalKey.currentState!.reset();
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(30),
+                          )),
 
-                      }
-                    },
-                    child:Container(
-                      color: PinkColor,
-                      height: SizeConfig.defaultSize!*5,
-                      width: SizeConfig.defaultSize!*20,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.add),
-                          Text(  "Add" ),
-                        ],
-                      ),
-                    ));
-              }
+                        onPressed: (){
+                          if(_globalKey.currentState!.validate()){
+
+                            _globalKey.currentState!.save();
+                            if(x==1){
+                              UploadImage(context);
+                            }else if(x==2){
+                              Uploadphoto(context);
+                            }
+
+
+                            _store.addProduct(Product(
+                              pName :_name,
+                              pPrice: _price,
+                              pDescription: _description,
+                              pCategory: _catogry,
+                              pImageUrl: _imageUrl,
+
+                            )
+                            );
+
+
+                            _globalKey.currentState!.reset();
+
+                          }
+                        },
+                        child:Container(
+
+                          height: SizeConfig.defaultSize!*4.5,
+
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.add,color: Colors.white,),
+                              Text(  "Add".toUpperCase(),style: TextStyle(fontSize: 20 ,color: Colors.white), ),
+                            ],
+                          ),
+                        ),
+
+                    ),
+                  );
+                }
             )
           ],
         ),
@@ -207,26 +235,26 @@ class AddProductScreenState extends State<AddProductScreen> {
 
   void UploadImage(context)async{
 
-   try {
-     x=1;
-     FirebaseStorage storage = FirebaseStorage.instanceFor(
-         bucket: "gs://ecommerceapp-ed916.appspot.com");
-     // StorageReference ref = storage.ref().child(selectedImage!.path);
-     Reference ref = storage.ref().child(selectedImage!.path);
-     UploadTask uploadTask = ref.putFile(File(selectedImage!.path));
-     TaskSnapshot taskSnapshot = await uploadTask.whenComplete(
-         () async{
-           _imageUrl= await ref.getDownloadURL();
-           });
+    try {
+      x=1;
+      FirebaseStorage storage = FirebaseStorage.instanceFor(
+          bucket: "gs://ecommerceapp-ed916.appspot.com");
+      // StorageReference ref = storage.ref().child(selectedImage!.path);
+      Reference ref = storage.ref().child(selectedImage!.path);
+      UploadTask uploadTask = ref.putFile(File(selectedImage!.path));
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(
+              () async{
+            _imageUrl= await ref.getDownloadURL();
+          });
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text('success'),
+      ));
+    }catch  (ex) {
+      print("Image exception is:$ex");
      Scaffold.of(context).showSnackBar(SnackBar(
-       content: Text('success'),
-     ));
-   }catch  (ex) {
-     print("exception is:$ex");
-    Scaffold.of(context).showSnackBar(SnackBar(
-    content: Text("$ex"),
+        content: Text("$ex"),
 
-    ));
+      ));
     }
 
   }
@@ -242,14 +270,14 @@ class AddProductScreenState extends State<AddProductScreen> {
 
 
       TaskSnapshot taskSnapshot = await uploadTask.whenComplete(
-          () {
-             setState(()async {
-               _imageUrl = await ref.getDownloadURL();
+              () {
+            setState(()async {
+              _imageUrl = await ref.getDownloadURL();
 
-               print("image url......:$_imageUrl");
-             });
+              print("image url......:$_imageUrl");
+            });
 
-       });
+          });
 
 
       Scaffold.of(context).showSnackBar(SnackBar(
@@ -258,7 +286,7 @@ class AddProductScreenState extends State<AddProductScreen> {
 
     } catch (ex) {
       Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text("$ex"),
+        content: Text("Image excception...: $ex"),
       ));
     }
 

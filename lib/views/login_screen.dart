@@ -13,12 +13,13 @@ import 'package:provider/provider.dart';
 import 'admin/admin_home_screen.dart';
 
 class LoginScreen extends StatelessWidget{
-  static const String id ="LoginScreen";
+  //static const String id ="LoginScreen";
 
   final GlobalKey<FormState> _globalKey = GlobalKey();
   late String _email ,_password ;
   final _auth = Auth();
   final String  adminPassword = 'admin123' ;
+  final String  userPassword = 'esraa123' ;
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +158,7 @@ class LoginScreen extends StatelessWidget{
                               child: Text("SignUp",
                                 style: TextStyle(color:TealColor ,fontSize: 16),),
                               onTap: (){
-                                Navigator.pushNamed(context, SignUpScreen.id);
+                                Navigator.pushNamed(context, "SignUpScreen");
                               },
                             ),
                           ],
@@ -189,7 +190,7 @@ void _validation(BuildContext context)async {
       try {
         final result = await _auth.signIn( _email, _password);
         modelhud.ChangeIsLoading(false);
-        Navigator.pushNamed(context, AdminHomeScreen.id);
+        Navigator.pushNamed(context, "AdminHomeScreen");
         _globalKey.currentState!.reset();
 
       }catch(e) {
@@ -209,7 +210,7 @@ void _validation(BuildContext context)async {
       try {
         final result = await _auth.signIn( _email, _password);
         modelhud.ChangeIsLoading(false);
-        Navigator.pushNamed(context, "HomeScreen");
+        Navigator.pushNamed(context, "UserHomeScreen");
 
       }catch(e) {
         modelhud.ChangeIsLoading(true);

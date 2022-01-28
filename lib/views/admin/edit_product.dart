@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditProduct extends StatefulWidget {
-  static const String id ="EditProduct";
+
 
   const EditProduct({Key? key}) : super(key: key);
 
@@ -43,25 +43,36 @@ class _EditProductState extends State<EditProduct> {
     debugPrint(ModalRoute.of(context).toString());
 
 
-    Product product =  ModalRoute.of(context)!.settings.arguments  as Product;
+    Product? product =  ModalRoute.of(context)!.settings.arguments  as Product;
     print("product:${product}");
-  /* if(product != null) {
+    /* if(product != null) {
      print("product:${product}");
      print("productId:${product.pId!}");
    }*/
 
 
-   // String y = ModalRoute.of(context)!.settings.arguments;
+    // String y = ModalRoute.of(context)!.settings.arguments;
 
     SizeConfig().init(context);
 
     return Scaffold(
       appBar:  AppBar(
 
-        backgroundColor: Teal2Color,
+        leading: GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, "AdminHomeScreen");
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: TealColor,
+              size: 35,
+            )),
+
+        elevation: 0,
+        backgroundColor: Colors.grey[200],
         centerTitle: true,
-        title: Text("Add Product" , style:  TextStyle(
-            fontWeight: FontWeight.w500 , fontSize:25 ,color: Colors.white,fontFamily: 'Pacifico'
+        title: Text("Edit Product" , style:  TextStyle(
+            fontWeight: FontWeight.w500 , fontSize:25 ,color:TealColor,fontFamily: 'Pacifico'
         ),),
 
 
@@ -155,46 +166,59 @@ class _EditProductState extends State<EditProduct> {
 
             Builder(
                 builder: (context) {
-                  return FlatButton(
-                      onPressed: (){
-                        if(_globalKey.currentState!.validate()){
+                  return Container(
+                    padding: EdgeInsets.only(top: SizeConfig.defaultSize!*1,left: 60,right: 60),
+                    child: RaisedButton(
 
-                          _globalKey.currentState!.save();
-                          if(x==1){
-                            UploadImage(context);
-                          }else if(x==2){
-                            Uploadphoto(context);
+                        color: TealColor,
+
+
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(30),
+                            )),
+
+                        onPressed: (){
+                          if(_globalKey.currentState!.validate()){
+
+                            _globalKey.currentState!.save();
+                            if(x==1){
+                              UploadImage(context);
+                            }else if(x==2){
+                              Uploadphoto(context);
+                            }
+
+
+                            _store.editProduct({
+                             kProductName: _name,
+                              kProductPrice: _price,
+                              kProductDescription: _description,
+                              kProductCategory: _catogry,
+                              kProductImage: _imageUrl,
+                            } ,product.pId
+
+                            );
+
+
+
+                            _globalKey.currentState!.reset();
+
                           }
-
-
-                          _store.editProduct({
-                            kProductName: _name,
-                            kProductPrice: _price,
-                            kProductDescription: _description,
-                            kProductCategory: _catogry,
-                            kProductImage: _imageUrl,
-                          } ,product.pId
-
-                          );
-
-
-
-                          _globalKey.currentState!.reset();
-
-                        }
-                      },
+                        },
                       child:Container(
-                        color: PinkColor,
-                        height: SizeConfig.defaultSize!*5,
-                        width: SizeConfig.defaultSize!*20,
+
+                        height: SizeConfig.defaultSize!*4.5,
+
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.add),
-                            Text(  "Edit" ),
+                            Icon(Icons.add,color: Colors.white,),
+                            Text(  "Edit".toUpperCase(),style: TextStyle(fontSize: 20 ,color: Colors.white), ),
                           ],
                         ),
-                      ));
+                      ),
+                    ),
+                  );
                 }
             )
           ],
@@ -281,4 +305,3 @@ class _EditProductState extends State<EditProduct> {
 
 }
 
-/////////////////////////////

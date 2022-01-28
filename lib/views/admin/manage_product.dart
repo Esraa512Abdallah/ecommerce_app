@@ -14,7 +14,7 @@ class ManageProducts extends StatefulWidget {
   );
 */
   static Route get route => MaterialPageRoute<void>(
-      builder: (context) => ManageProducts(),
+    builder: (context) => ManageProducts(),
   );
 
   const ManageProducts({Key? key}) : super(key: key);
@@ -39,7 +39,7 @@ class _ManageProductsState extends State<ManageProducts> {
         stream: _store.loadProducts(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List<Product> products = [];
+            List<Product>? products = [];
 
             for (var doc in snapshot.data!.docs) {
               products.add(Product.fromFirestore(doc));
@@ -68,10 +68,10 @@ class _ManageProductsState extends State<ManageProducts> {
                               onClick: () {
                                 // debugPrint(products[index].);
 
-                               Navigator.of(context).pushReplacementNamed(
+                                Navigator.of(context).pushReplacementNamed(
                                     "EditProduct",
                                     arguments: products[index]
-                               );
+                                );
 
                               },
                             ),
@@ -93,16 +93,14 @@ class _ManageProductsState extends State<ManageProducts> {
                               width: 2.5,
                               color: RosyBrownColor,
                             ),
-                            color:RosyBrownColor,
+                            color: RosyBrownColor,
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20.0),
                             child: Image(
-                              height: double.infinity,
-                              width: double.infinity,
                               fit: BoxFit.cover,
                               image: NetworkImage(
-                                products[index].pImageUrl!,
+                                "${products[index].pImageUrl}",
                               ),
                             ),
                           ),
@@ -126,17 +124,17 @@ class _ManageProductsState extends State<ManageProducts> {
                                   Text(
                                     "catogry: ${products[index].pCategory!}",
                                     style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     "name: ${products[index].pName!}",
                                     style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     "price: ${products[index].pPrice!}\$",
                                     style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
