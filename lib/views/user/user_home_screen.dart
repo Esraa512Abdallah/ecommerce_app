@@ -1,22 +1,3 @@
-/*
-import 'package:flutter/material.dart';
-
-class UserHomeScreen extends StatefulWidget {
-  const UserHomeScreen({Key? key}) : super(key: key);
-
-  @override
-  _UserHomeScreenState createState() => _UserHomeScreenState();
-}
-
-class _UserHomeScreenState extends State<UserHomeScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(),
-    );
-  }
-}
-*/
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app/helper/constance.dart';
@@ -39,14 +20,33 @@ class UserHomeScreen extends StatefulWidget {
 class _UserHomeScreenState extends State<UserHomeScreen> {
   final _auth = Auth();
 
-  // FirebaseUser _loggedUser;
+
   int _tabBarIndex = 0;
   int _bottomBarIndex = 0;
   final _store = Store();
   List<Product> _products = [];
 
+
+
+
   @override
   Widget build(BuildContext context) {
+    int _selectedIndex = 0;
+    List<Widget> Screens = [
+      TabBarView(
+        children: <Widget>[
+          ProductView("Primer"),
+          ProductView("Eyeshadow"),
+          ProductView("Mascara"),
+          ProductView("Concealer"),
+
+        ],
+      ),
+      CartScreen(),
+      FavoriteScreen(),
+      Container(),
+    ];
+
     return Stack(
       children: <Widget>[
         DefaultTabController(
@@ -54,14 +54,23 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           child: Scaffold(
             bottomNavigationBar: BottomNavigationBar(
 
+
+
               type: BottomNavigationBarType.fixed,
               unselectedItemColor: Colors.grey,
-              currentIndex: _bottomBarIndex,
-              fixedColor: PinkColor,
-           //   selectedItemColor:PinkColor ,
+              currentIndex: _selectedIndex,
+              selectedItemColor: Colors.pink.shade300,
+
+              onTap: (val){
+                setState(() {
+                  _selectedIndex = val ;
+                });
+
+              },
+
               items: [
                 BottomNavigationBarItem(
-                    title: Text('home'), icon: Icon(Icons.home)),
+                    title: Text('home'), icon: Icon(Icons.home),),
                 BottomNavigationBarItem(
                     title: Text('cart'), icon: Icon(Icons.shopping_cart)),
                 BottomNavigationBarItem(
@@ -115,34 +124,8 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 ],
               ),
             ),
-            body: TabBarView(
-              children: <Widget>[
-                ProductView("Primer"),
-                ProductView("Eyeshadow"),
-                ProductView("Mascara"),
-                ProductView("Concealer"),
+            body: Screens[_bottomBarIndex],
 
-              ],
-            ),
-            /*Container(
-              child: Column(
-                children: [
-                TabBarView(
-                    children: <Widget>[
-                      ProductView("Primer"),
-                      ProductView("Eyeshadow"),
-                      ProductView("Mascara"),
-                      ProductView("Concealer"),
-
-                    ],
-                  ),
-                  /*Container(),
-                  CartScreen(),
-                  FavoriteScreen(),
-                  Container(),*/
-                ],
-              ),
-            ),*/
           ),
         ),
         Material(
@@ -180,14 +163,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
     );
   }
 
-/*@override
-  void initState() {
-    getCurrenUser();
-  }*/
-/*
-  getCurrenUser() async {
-    _loggedUser = await _auth.getUser();
-  }*/
+
 
 
   Widget ProductView(String productCategory ) {
