@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
           "LoginScreen ": (context) => LoginScreen(),
           "SignUpScreen": (context) => SignUpScreen(),
           "AdminHomeScreen": (context) => AdminHomeScreen(),
-          "AddProductScreen": (context) => AddProductScreen(),
+          "AddProductScreen ": (context) => AddProductScreen(),
           "EditProduct": (context) => EditProduct(),
           "ManageProducts": (context) => ManageProducts(),
           "UserHomeScreen": (context) => UserHomeScreen(),

@@ -1,6 +1,9 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app/services/storage.dart';
+import 'package:ecommerce_app/views/user/cart_screen.dart';
+import 'package:ecommerce_app/views/user/favorite_screen.dart';
+import 'package:ecommerce_app/views/user/user_home_screen.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:ecommerce_app/helper/constance.dart';
 import 'package:ecommerce_app/helper/sizedConfig.dart';
@@ -33,6 +36,7 @@ class AddProductScreenState extends State<AddProductScreen> {
   XFile? selectedImage ;
   XFile? selectedPhoto ;
   int x = 0 ;
+
 
 
 
@@ -294,3 +298,6 @@ class AddProductScreenState extends State<AddProductScreen> {
 
 
 }
+
+
+
