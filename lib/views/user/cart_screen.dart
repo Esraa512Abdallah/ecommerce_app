@@ -24,7 +24,6 @@ class _CartScreenState extends State<CartScreen> {
     var SCH = SizeConfig.screenHeight!;
     List<Product> products = Provider.of<CartItem>(context).products;
 
-
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
@@ -78,11 +77,10 @@ class _CartScreenState extends State<CartScreen> {
                                 child: Text("Edit"),
                                 onClick: () {
                                   Navigator.pop(context);
-                                  // Provider.of<CartItem>(context, listen: false) .DeleteProduct(products[index]);
                                   Navigator.pushNamed(context, "ProductInfo",
                                       arguments: products[index]);
                                   Provider.of<CartItem>(context, listen: false)
-                                      .DeleteProduct(products[index]);
+                                      .DeleteProductFromCart(products[index]);
                                 },
                               ),
                               MyPopupMenuItem(
@@ -90,7 +88,7 @@ class _CartScreenState extends State<CartScreen> {
                                 onClick: () {
                                   Navigator.pop(context);
                                   Provider.of<CartItem>(context, listen: false)
-                                      .DeleteProduct(products[index]);
+                                      .DeleteProductFromCart(products[index]);
                                 },
                               ),
                             ]);
@@ -154,75 +152,82 @@ class _CartScreenState extends State<CartScreen> {
                                     SizedBox(
                                       height: SizeConfig.defaultSize! * 1.2,
                                     ),
-                                   Row(
-                                     children: [
-                                       Text(
-                                         "${products[index].pPrice!} \$",
-                                         style: TextStyle(
-                                             fontSize: 18,
-                                             fontWeight: FontWeight.w500,
-                                             color: Teal2Color,
-                                             overflow: TextOverflow.ellipsis),
-                                       ),
-                                       SizedBox(
-                                         width: SizeConfig.defaultSize!*10,
-                                       ),
-                                       Text(
-                                         "${products[index].Pquantity!.toString()} ",
-                                         style: TextStyle(
-                                             fontSize: 18,
-                                             fontWeight: FontWeight.w500,
-                                             color: Teal2Color,
-                                             overflow: TextOverflow.ellipsis),
-                                       ),
-                                     ],
-                                   ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "${products[index].pPrice!} \$",
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500,
+                                              color: Teal2Color,
+                                              overflow: TextOverflow.ellipsis),
+                                        ),
+                                        SizedBox(
+                                          width: SizeConfig.defaultSize! * 10,
+                                        ),
+                                        Text(
+                                          "${products[index].Pquantity!.toString()} ",
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500,
+                                              color: Teal2Color,
+                                              overflow: TextOverflow.ellipsis),
+                                        ),
+                                      ],
+                                    ),
                                     SizedBox(
                                       height: SizeConfig.defaultSize! * 1.2,
                                     ),
-                                  Row(
-
-                                    children: [
-                                      Stack(
-
-                                        children: [
-                                          Icon(
-                                            Icons.star,
-                                            size: 55,
-                                            color: Colors.pink.shade300,
-                                          ),
-                                          Positioned(
-                                            left: 5,
-                                            top: 3,
-                                            child: Text(
-                                              products[index].Prate.toString(),
-                                              style: TextStyle(
-                                                  color: TealColor,
-                                                  fontSize: 40),
+                                    Row(
+                                      children: [
+                                        Stack(
+                                          children: [
+                                            Icon(
+                                              Icons.star,
+                                              size: 55,
+                                              color: Colors.pink.shade300,
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        width: SizeConfig.defaultSize! * 8,
-                                      ),
-                                      Container(
-                                        child: (products[index].Pfavorite==1)?Icon(
-                                          Icons.favorite,
-                                          color: Colors.pink.shade500,
-                                          size: 35,
-                                        ):(products[index].Pfavorite==0)?Icon(
-                                          Icons.favorite_border,
-                                          color: Colors.pink.shade500,
-                                          size: 35,
-                                        ):Icon(
-                                          Icons.favorite_border,
-                                          color: Colors.pink.shade500,
-                                          size: 35,
+                                            Positioned(
+                                              left: 5,
+                                              top: 3,
+                                              child: Text(
+                                                products[index]
+                                                    .Prate
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    color: TealColor,
+                                                    fontSize: 40),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                    ],
-                                  ),
+                                        SizedBox(
+                                          width: SizeConfig.defaultSize! * 8,
+                                        ),
+                                        Container(
+                                          child: (products[index].Pfavorite ==
+                                                  1)
+                                              ? Icon(
+                                                  Icons.favorite,
+                                                  color: Colors.pink.shade300,
+                                                  size: 35,
+                                                )
+                                              : (products[index].Pfavorite == 0)
+                                                  ? Icon(
+                                                      Icons.favorite_border,
+                                                      color:
+                                                          Colors.pink.shade300,
+                                                      size: 35,
+                                                    )
+                                                  : Icon(
+                                                      Icons.favorite_border,
+                                                      color:
+                                                          Colors.pink.shade300,
+                                                      size: 35,
+                                                    ),
+                                        ),
+                                      ],
+                                    ),
                                   ],
                                 ),
                               ),
@@ -249,25 +254,28 @@ class _CartScreenState extends State<CartScreen> {
                 },
               ),
             ),
-
-                Container(
-
-                  padding: EdgeInsets.only(right: 60,left: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                    children: [
-                       Text("Total price",style: TextStyle(fontSize: 20 ,color: Colors.black,fontWeight: FontWeight.w700),),
-                       Text(
-                    "\$ ${getTotallPrice(products).toString()}",style: TextStyle(fontSize: 20 ,color: TealColor),),
-                     ],
-
+            Container(
+              padding: EdgeInsets.only(right: 60, left: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Total price",
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700),
                   ),
-                ),
+                  Text(
+                    "\$ ${getTotallPrice(products).toString()}",
+                    style: TextStyle(fontSize: 20, color: Colors.black54),
+                  ),
+                ],
+              ),
+            ),
             SizedBox(
               height: 20,
             ),
-
             ButtonTheme(
               minWidth: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * .08,
@@ -279,8 +287,7 @@ class _CartScreenState extends State<CartScreen> {
                           topLeft: Radius.circular(20))),
                   color: Colors.pink.shade300,
                   onPressed: () {
-                    showCustomDialog( context,products);
-
+                    showCustomDialog(context, products);
                   },
                   child: Text(
                     'order'.toUpperCase(),
@@ -298,9 +305,7 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-
-  void showCustomDialog( context,products) async {
-
+  void showCustomDialog(context, products) async {
     var address;
     var price = getTotallPrice(products);
     AlertDialog alertDialog = AlertDialog(
@@ -310,10 +315,8 @@ class _CartScreenState extends State<CartScreen> {
             try {
               Store _store = Store();
 
-              _store.storeOrders({
-                "TotalPrice":price,"Address":address
-              }, products);
-
+              _store.storeOrders(
+                  {"TotalPrice": price, "Address": address}, products);
 
               Scaffold.of(context).showSnackBar(SnackBar(
                 content: Text('Orderd Successfully'),
@@ -332,7 +335,6 @@ class _CartScreenState extends State<CartScreen> {
         },
         decoration: InputDecoration(hintText: 'Enter your Address'),
       ),
-    //  title: Text('Totall Price  = \$ $price'),
     );
     await showDialog(
         context: context,
@@ -344,11 +346,8 @@ class _CartScreenState extends State<CartScreen> {
   getTotallPrice(List<Product> products) {
     var price = 0;
     for (var product in products) {
-
       price += product.Pquantity! * int.parse(product.pPrice!);
-
     }
-    return  price;
+    return price;
   }
 }
-

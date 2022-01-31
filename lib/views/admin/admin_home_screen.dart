@@ -1,5 +1,3 @@
-
-
 import 'package:ecommerce_app/helper/constance.dart';
 import 'package:ecommerce_app/helper/sizedConfig.dart';
 import 'package:ecommerce_app/views/widgets/custom_button.dart';
@@ -7,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AdminHomeScreen  extends StatelessWidget{
-  static const String id = 'AdminHomeScreen';
+ // static const String id = 'AdminHomeScreen';
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -23,10 +21,10 @@ class AdminHomeScreen  extends StatelessWidget{
           'Eyeliner Store',
 
           style: TextStyle(
-            fontSize: 22,
+            fontSize: 26,
             fontWeight: FontWeight.bold,
             fontFamily: 'Pacifico',
-            color: TealColor,
+            color: Colors.pink.shade200,
           ),
         ),
 
@@ -54,7 +52,7 @@ class AdminHomeScreen  extends StatelessWidget{
                     children: [
 
                       SizedBox(width: SizeConfig.defaultSize!*2.5,),
-                      Text("Add Product",style: TextStyle(color: Teal2Color,fontSize: 25),),
+                      Text("Add Product",style: TextStyle(color: TealColor,fontSize: 25),),
                     ],
                   ),
                   onPressed: (){
@@ -77,7 +75,7 @@ class AdminHomeScreen  extends StatelessWidget{
                     children: [
 
                       SizedBox(width: SizeConfig.defaultSize!*2.5,),
-                      Text("Manage Products",style: TextStyle(color: Teal2Color,fontSize: 25),),
+                      Text("Manage Products",style: TextStyle(color: TealColor,fontSize: 25),),
                     ],
                   ),
                   onPressed: (){
@@ -99,7 +97,7 @@ class AdminHomeScreen  extends StatelessWidget{
                     children: [
 
                       SizedBox(width: SizeConfig.defaultSize!*2.5,),
-                      Text("View Order",style: TextStyle(color: Teal2Color,fontSize: 25),),
+                      Text("View Order",style: TextStyle(color: TealColor,fontSize: 25),),
                     ],
                   ),
                   onPressed: (){

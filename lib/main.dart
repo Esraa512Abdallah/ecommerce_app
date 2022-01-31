@@ -10,6 +10,7 @@ import 'package:ecommerce_app/views/user/user_home_screen.dart';
 import 'package:ecommerce_app/views/login_screen.dart';
 import 'package:ecommerce_app/views/signup_screen.dart';
 import 'package:ecommerce_app/viewsModel/model_view_cart.dart';
+import 'package:ecommerce_app/viewsModel/model_view_favorite.dart';
 import 'package:ecommerce_app/viewsModel/model_view_hud.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<CartItem>(
           create: (context) => CartItem(),
+        ),
+        ChangeNotifierProvider<FavoriteItem>(
+          create: (context) => FavoriteItem(),
         )
       ],
       child: MaterialApp(

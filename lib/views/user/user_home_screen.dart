@@ -1,6 +1,6 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app/helper/constance.dart';
+import 'package:ecommerce_app/helper/sizedConfig.dart';
 import 'package:ecommerce_app/models/product.dart';
 import 'package:ecommerce_app/services/auth.dart';
 import 'package:ecommerce_app/services/storage.dart';
@@ -20,17 +20,22 @@ class UserHomeScreen extends StatefulWidget {
 class _UserHomeScreenState extends State<UserHomeScreen> {
   final _auth = Auth();
 
-
   int _tabBarIndex = 0;
   int _bottomBarIndex = 0;
   final _store = Store();
   List<Product> _products = [];
 
-
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    if (_bottomBarIndex == 3) {
+      _auth.signOut();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     int _selectedIndex = 0;
     List<Widget> Screens = [
       TabBarView(
@@ -39,7 +44,6 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           ProductView("Eyeshadow"),
           ProductView("Mascara"),
           ProductView("Concealer"),
-
         ],
       ),
       CartScreen(),
@@ -53,24 +57,24 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           length: 4,
           child: Scaffold(
             bottomNavigationBar: BottomNavigationBar(
-
-
-
               type: BottomNavigationBarType.fixed,
               unselectedItemColor: Colors.grey,
-              currentIndex: _selectedIndex,
-              selectedItemColor: Colors.pink.shade300,
-
-              onTap: (val){
+              currentIndex: _bottomBarIndex,
+              selectedItemColor: Colors.pink.shade200,
+              selectedFontSize: 22,
+              selectedIconTheme: IconThemeData(
+                size: 35,
+              ),
+              onTap: (val) {
                 setState(() {
-                  _selectedIndex = val ;
+                  _bottomBarIndex = val;
                 });
-
               },
-
               items: [
                 BottomNavigationBarItem(
-                    title: Text('home'), icon: Icon(Icons.home),),
+                  title: Text('home'),
+                  icon: Icon(Icons.home),
+                ),
                 BottomNavigationBarItem(
                     title: Text('cart'), icon: Icon(Icons.shopping_cart)),
                 BottomNavigationBarItem(
@@ -80,103 +84,113 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               ],
             ),
             appBar: AppBar(
-
               backgroundColor: Colors.white,
               elevation: 0,
-              bottom: TabBar(
-                isScrollable: true,
-                indicatorColor: PinkColor,
-                onTap: (value) {
-                  setState(() {
-                    _tabBarIndex = value;
-                  });
-                },
-                tabs: <Widget>[
-                  Text(
-                    'Primer',
-                    style: TextStyle(
-                      color: _tabBarIndex == 0 ? TealColor : Teal2Color,
-                      fontSize: _tabBarIndex == 0 ? 20 : 18,
-                      fontWeight: _tabBarIndex==0 ?FontWeight.bold : null,
-                    ),
-                  ),
-                  Text(
-                    'Eyeshadow',
-                    style: TextStyle(
-                      color: _tabBarIndex == 1 ? TealColor : Teal2Color,
-                      fontSize: _tabBarIndex == 1 ? 20 : 18,
-                    ),
-                  ),
-                  Text(
-                    'Mascara',
-                    style: TextStyle(
-                      color: _tabBarIndex == 2 ? TealColor : Teal2Color,
-                      fontSize: _tabBarIndex == 2 ? 20 : 18,
-                    ),
-                  ),
-                  Text(
-                    'Concealer',
-                    style: TextStyle(
-                      color: _tabBarIndex == 3 ? TealColor : Teal2Color,
-                      fontSize: _tabBarIndex == 3 ? 20 : 18,
-                    ),
-                  ),
-                ],
-              ),
+              bottom: (_bottomBarIndex == 0)
+                  ? TabBar(
+                      isScrollable: true,
+                      indicatorColor: PinkColor,
+                      onTap: (value) {
+                        setState(() {
+                          _tabBarIndex = value;
+                        });
+                      },
+                      tabs: <Widget>[
+                        Text(
+                          'Primer',
+                          style: TextStyle(
+                            color: _tabBarIndex == 0 ? TealColor : Teal2Color,
+                            fontSize: _tabBarIndex == 0 ? 20 : 16,
+                            fontWeight:
+                                _tabBarIndex == 0 ? FontWeight.bold : null,
+                          ),
+                        ),
+                        Text(
+                          'Eyeshadow',
+                          style: TextStyle(
+                            color: _tabBarIndex == 1 ? TealColor : Teal2Color,
+                            fontSize: _tabBarIndex == 1 ? 20 : 16,
+                            fontWeight:
+                                _tabBarIndex == 1 ? FontWeight.bold : null,
+                          ),
+                        ),
+                        Text(
+                          'Mascara',
+                          style: TextStyle(
+                            color: _tabBarIndex == 2 ? TealColor : Teal2Color,
+                            fontSize: _tabBarIndex == 2 ? 20 : 16,
+                            fontWeight:
+                                _tabBarIndex == 2 ? FontWeight.bold : null,
+                          ),
+                        ),
+                        Text(
+                          'Concealer',
+                          style: TextStyle(
+                            color: _tabBarIndex == 3 ? TealColor : Teal2Color,
+                            fontSize: _tabBarIndex == 3 ? 20 : 16,
+                            fontWeight:
+                                _tabBarIndex == 3 ? FontWeight.bold : null,
+                          ),
+                        ),
+                      ],
+                    )
+                  : null,
             ),
             body: Screens[_bottomBarIndex],
-
           ),
         ),
-        Material(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
-            child: Container(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * .1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Eyeliner Store',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Pacifico',
-                      color: Colors.pink.shade300,
+        (_bottomBarIndex == 0)
+            ? Material(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * .1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          'Eyeliner Store',
+                          style: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Pacifico',
+                            color: Colors.pink.shade200,
+                          ),
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, "CartScreen");
+                            },
+                            child: Icon(
+                              Icons.shopping_cart,
+                              size: 35,
+                              color: TealColor,
+                            ))
+                      ],
                     ),
                   ),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, "CartScreen");
-                      },
-                      child: Icon(
-                        Icons.shopping_cart, size: 35, color: TealColor,))
-                ],
-              ),
-            ),
-          ),
-        )
+                ),
+              )
+            : Material(
+                child: Container(
+                  height: 85,
+                  color: Colors.grey[100],
+                ),
+              )
       ],
     );
   }
 
-
-
-
-  Widget ProductView(String productCategory ) {
+  Widget ProductView(String productCategory) {
     return StreamBuilder<QuerySnapshot>(
       stream: _store.loadProducts(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Product>? products = [];
 
-
           for (var doc in snapshot.data!.docs) {
-            if(doc["productCategory"]==productCategory){
-            products.add(Product.fromFirestore(doc));
+            if (doc["productCategory"] == productCategory) {
+              products.add(Product.fromFirestore(doc));
             }
           }
           return GridView.builder(
@@ -188,20 +202,23 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               return Padding(
                 padding: EdgeInsets.all(10),
                 child: GestureDetector(
-                   onTap: (){
-                     Navigator.pushNamed(context, "LoginScreen",arguments: _products[index]);
-                   },
+                  onTap: () {
+                    Navigator.pushNamed(context, "ProductInfo",
+                        arguments: products[index]);
+                  },
                   child: Stack(children: <Widget>[
                     Positioned(
                       child: Container(
+                        height: SizeConfig.screenHeight! * .8,
+                        width: SizeConfig.screenWidth!,
                         padding: EdgeInsets.all(3),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20.0),
                           border: Border.all(
                             width: 2.5,
-                            color: RosyBrownColor,
+                            color: Colors.pink.shade100,
                           ),
-                          color: RosyBrownColor,
+                          color: Colors.pink.shade100,
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20.0),
@@ -231,21 +248,16 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                               children: [
                                 Text(
                                   "catogry: ${products[index].pCategory!}",
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   "name: ${products[index].pName!}",
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
-
                                 Text(
                                   "price: ${products[index].pPrice!}\$",
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
-
                               ],
                             ),
                           ),

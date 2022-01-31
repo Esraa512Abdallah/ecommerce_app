@@ -1,15 +1,15 @@
 import 'package:ecommerce_app/models/product.dart';
 import 'package:flutter/material.dart';
 
-class CartItem extends ChangeNotifier {
+class FavoriteItem extends ChangeNotifier {
   List<Product> products = [];
 
-  AddProductToCart(Product product) {
+  AddProductToFavorite(Product product) {
     products.add(product);
     notifyListeners();
   }
 
-  DeleteProductFromCart(Product product) {
+  DeleteProductFromFavorite(Product product) {
     products.remove(product);
     notifyListeners();
   }

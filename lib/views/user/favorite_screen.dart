@@ -3,7 +3,7 @@ import 'package:ecommerce_app/helper/sizedConfig.dart';
 import 'package:ecommerce_app/models/product.dart';
 import 'package:ecommerce_app/services/storage.dart';
 import 'package:ecommerce_app/views/widgets/custom_mypopupmenuitem.dart';
-import 'package:ecommerce_app/viewsModel/model_view_cart.dart';
+import 'package:ecommerce_app/viewsModel/model_view_favorite.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,8 +22,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     var SCH = SizeConfig.screenHeight!;
-    List<Product> products = Provider.of<CartItem>(context).products;
-
+    List<Product> products = Provider.of<FavoriteItem>(context).products;
 
     return Scaffold(
       appBar: AppBar(
@@ -63,7 +62,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 itemCount: products.length,
                 itemBuilder: (context, index) {
                   if (products.isNotEmpty) {
-
                     return GestureDetector(
                       onTapUp: (details) {
                         double dx = details.globalPosition.dx;
@@ -75,13 +73,14 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                             context: context,
                             position: RelativeRect.fromLTRB(dx, dy, dx2, dy2),
                             items: [
-
                               MyPopupMenuItem(
                                 child: Text("Delete"),
                                 onClick: () {
                                   Navigator.pop(context);
-                                  Provider.of<CartItem>(context, listen: false)
-                                      .DeleteProduct(products[index]);
+                                  Provider.of<FavoriteItem>(context,
+                                          listen: false)
+                                      .DeleteProductFromFavorite(
+                                          products[index]);
                                 },
                               ),
                             ]);
@@ -120,7 +119,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                 ),
                                 child: Column(
                                   crossAxisAlignment:
-                                  CrossAxisAlignment.stretch,
+                                      CrossAxisAlignment.stretch,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
@@ -156,7 +155,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                               overflow: TextOverflow.ellipsis),
                                         ),
                                         SizedBox(
-                                          width: SizeConfig.defaultSize!*10,
+                                          width: SizeConfig.defaultSize! * 10,
                                         ),
                                         Text(
                                           "${products[index].Pquantity!.toString()} ",
@@ -172,10 +171,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                       height: SizeConfig.defaultSize! * 1.2,
                                     ),
                                     Row(
-
                                       children: [
                                         Stack(
-
                                           children: [
                                             Icon(
                                               Icons.star,
@@ -186,7 +183,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                               left: 5,
                                               top: 3,
                                               child: Text(
-                                                products[index].Prate.toString(),
+                                                products[index]
+                                                    .Prate
+                                                    .toString(),
                                                 style: TextStyle(
                                                     color: TealColor,
                                                     fontSize: 40),
@@ -198,19 +197,26 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                           width: SizeConfig.defaultSize! * 8,
                                         ),
                                         Container(
-                                          child: (products[index].Pfavorite==1)?Icon(
-                                            Icons.favorite,
-                                            color: Colors.pink.shade500,
-                                            size: 35,
-                                          ):(products[index].Pfavorite==0)?Icon(
-                                            Icons.favorite_border,
-                                            color: Colors.pink.shade500,
-                                            size: 35,
-                                          ):Icon(
-                                            Icons.favorite_border,
-                                            color: Colors.pink.shade500,
-                                            size: 35,
-                                          ),
+                                          child: (products[index].Pfavorite ==
+                                                  1)
+                                              ? Icon(
+                                                  Icons.favorite,
+                                                  color: Colors.pink.shade500,
+                                                  size: 35,
+                                                )
+                                              : (products[index].Pfavorite == 0)
+                                                  ? Icon(
+                                                      Icons.favorite_border,
+                                                      color:
+                                                          Colors.pink.shade500,
+                                                      size: 35,
+                                                    )
+                                                  : Icon(
+                                                      Icons.favorite_border,
+                                                      color:
+                                                          Colors.pink.shade500,
+                                                      size: 35,
+                                                    ),
                                         ),
                                       ],
                                     ),
@@ -240,7 +246,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 },
               ),
             ),
-
           ],
         ),
       ),

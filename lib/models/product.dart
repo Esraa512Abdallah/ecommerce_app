@@ -10,7 +10,7 @@ class Product {
   String? pId;
   double? Prate;
   int? Pquantity;
-  int? Pfavorite  ;
+  int? Pfavorite;
 
   Product(
       {this.pCategory,
@@ -21,7 +21,7 @@ class Product {
       this.pId,
       this.Prate,
       this.Pquantity,
-       this.Pfavorite});
+      this.Pfavorite});
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         pName: json["productName"],
@@ -32,7 +32,6 @@ class Product {
         Prate: json["productRate"],
         Pquantity: json["productQuantity"],
         Pfavorite: json["productFavorite"],
-
       );
 
   factory Product.fromFirestore(QueryDocumentSnapshot doc) => Product(
@@ -41,8 +40,6 @@ class Product {
       pDescription: doc.get("productDescription"),
       pCategory: doc.get("productCategory"),
       pImageUrl: doc.get("productImageUrl"),
-      //  Prate:doc.get("productRate"),
-      // Pquantity: doc.get("productQuantity"),
       pId: doc.id);
 
   Map<String, dynamic> toJson() => {
