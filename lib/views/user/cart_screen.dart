@@ -310,23 +310,30 @@ class _CartScreenState extends State<CartScreen> {
     var price = getTotallPrice(products);
     AlertDialog alertDialog = AlertDialog(
       actions: <Widget>[
-        MaterialButton(
-          onPressed: () {
-            try {
-              Store _store = Store();
+        Center(
+          child: MaterialButton(
+            onPressed: () {
+              try {
+                Store _store = Store();
 
-              _store.storeOrders(
-                  {"TotalPrice": price, "Address": address}, products);
+                _store.storeOrders(
+                    {"TotalPrice": price, "Address": address}, products);
 
-              Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text('Orderd Successfully'),
-              ));
-              Navigator.pop(context);
-            } catch (ex) {
-              //print(ex.message);
-            }
-          },
-          child: Text('Confirm'),
+                Scaffold.of(context).showSnackBar(SnackBar(
+                  content: Text('Orderd Successfully'),
+                ));
+                Navigator.pop(context);
+              } catch (ex) {
+                //print(ex.message);
+              }
+            },
+            minWidth: MediaQuery.of(context).size.width * .2,
+            height: MediaQuery.of(context).size.height * .05,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            color: Colors.pink.shade300,
+            child: Text('Confirm'),
+          ),
         )
       ],
       content: TextField(

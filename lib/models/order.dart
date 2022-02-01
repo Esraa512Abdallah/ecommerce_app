@@ -1,34 +1,27 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Order{
-
+class Order {
   int? TotalPrice;
   String? Address;
   String? docId;
 
-  Order( {this.TotalPrice,this.Address,this.docId});
+  //OrderDetails? details;
 
-
+  Order({this.TotalPrice, this.Address, this.docId});
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
-      TotalPrice: json["TotalPrice"],
-      Address: json["Address"],
+        TotalPrice: json["TotalPrice"],
+        Address: json["Address"],
+      );
 
-
-  );
-  
-  factory Order.fromFirebase(QueryDocumentSnapshot doc)=>Order(
-    Address: doc.get("Address"),
-    TotalPrice: doc.get("TotalPrice"),
-    docId: doc.id,
-   
-      
+  factory Order.fromFirebase(QueryDocumentSnapshot doc) => Order(
+        Address: doc.get("Address"),
+        TotalPrice: doc.get("TotalPrice"),
+        docId: doc.id,
       );
 
   Map<String, dynamic> toJson() => {
-    "Address": this.Address,
-    "TotalPrice": this.TotalPrice,
-  };
-
-  }
+        "Address": this.Address,
+        "TotalPrice": this.TotalPrice,
+      };
+}

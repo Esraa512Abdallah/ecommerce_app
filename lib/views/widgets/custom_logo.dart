@@ -1,6 +1,4 @@
 
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +15,7 @@ class CustomLogo extends StatelessWidget{
           bottom: 60,
           child:Text("Eyeliner Store",
             style: TextStyle(
+              color:Colors.white,
               fontSize: 30,
               fontFamily:'Pacifico',
             ),

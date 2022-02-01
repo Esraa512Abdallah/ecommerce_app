@@ -9,16 +9,19 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
-  //static const String id ="LoginScreen";
+class LoginScreen extends StatefulWidget {
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
 
+class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _globalKey = GlobalKey();
+
   late String _email, _password;
 
   final _auth = Auth();
-  final String adminPassword = 'admin123';
 
-  final String userPassword = 'esraa123';
+  final String adminPassword = 'admin123';
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +69,7 @@ class LoginScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           CustomTextFeild(
+                            fillColor: FeildfillColor,
                             hintText: "Enter your email",
                             icon: Icons.mail,
                             iconcolor: TealColor,
@@ -78,6 +82,7 @@ class LoginScreen extends StatelessWidget {
                             height: SizeConfig.defaultSize! * 1.2,
                           ),
                           CustomTextFeild(
+                            fillColor: FeildfillColor,
                             hintText: "Enter your password",
                             icon: Icons.lock,
                             iconcolor: TealColor,
@@ -194,6 +199,7 @@ class LoginScreen extends StatelessWidget {
       } else {
         try {
           final result = await _auth.signIn(_email, _password);
+
           modelhud.ChangeIsLoading(false);
           Navigator.pushNamed(context, "UserHomeScreen");
         } catch (e) {

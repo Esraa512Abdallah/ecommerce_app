@@ -11,8 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class UserHomeScreen extends StatefulWidget {
-  static String id = 'UserHomeScreen';
-
   @override
   _UserHomeScreenState createState() => _UserHomeScreenState();
 }
@@ -26,17 +24,19 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   List<Product> _products = [];
 
   @override
-  void initState() {
-    // TODO: implement initState
-    if (_bottomBarIndex == 3) {
-      _auth.signOut();
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    bool state = false;
+
     SizeConfig().init(context);
     int _selectedIndex = 0;
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      if (_bottomBarIndex == 3) {
+        _auth.signOut();
+        Navigator.popAndPushNamed(context, "LoginScreen");
+      }
+    });
+
     List<Widget> Screens = [
       TabBarView(
         children: <Widget>[
@@ -80,7 +80,9 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 BottomNavigationBarItem(
                     title: Text('favorite'), icon: Icon(Icons.favorite_border)),
                 BottomNavigationBarItem(
-                    title: Text('sign out'), icon: Icon(Icons.close)),
+                  title: Text('sign out'),
+                  icon: Icon(Icons.close),
+                ),
               ],
             ),
             appBar: AppBar(

@@ -297,7 +297,7 @@ class _ProductInfoState extends State<ProductInfo> {
                                 }
 
                                 setState(() {
-                                  // favor=1;
+                                  favor = 1;
                                   product.Pfavorite = 1;
                                 });
                               },

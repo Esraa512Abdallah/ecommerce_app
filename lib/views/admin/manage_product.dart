@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app/helper/constance.dart';
+import 'package:ecommerce_app/helper/sizedConfig.dart';
 import 'package:ecommerce_app/models/product.dart';
 import 'package:ecommerce_app/services/storage.dart';
 import 'package:ecommerce_app/views/widgets/custom_mypopupmenuitem.dart';
@@ -7,15 +8,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ManageProducts extends StatefulWidget {
-  //static const String id = "ManageProducts";
-  /*
   static Route get route => MaterialPageRoute<void>(
-    builder: (context) => ManageProducts(),
-  );
-*/
-  static Route get route => MaterialPageRoute<void>(
-    builder: (context) => ManageProducts(),
-  );
+        builder: (context) => ManageProducts(),
+      );
 
   const ManageProducts({Key? key}) : super(key: key);
 
@@ -34,7 +29,32 @@ class _ManageProductsState extends State<ManageProducts> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+
     return Scaffold(
+      appBar: AppBar(
+        leading: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: TealColor,
+              size: 35,
+            )),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        title: Text(
+          'Manage Product',
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Pacifico',
+            color: TealColor,
+          ),
+        ),
+        elevation: 0,
+      ),
       body: StreamBuilder<QuerySnapshot>(
         stream: _store.loadProducts(),
         builder: (context, snapshot) {
@@ -70,9 +90,7 @@ class _ManageProductsState extends State<ManageProducts> {
 
                                 Navigator.of(context).pushReplacementNamed(
                                     "EditProduct",
-                                    arguments: products[index]
-                                );
-
+                                    arguments: products[index]);
                               },
                             ),
                             MyPopupMenuItem(
@@ -86,14 +104,15 @@ class _ManageProductsState extends State<ManageProducts> {
                     child: Stack(children: <Widget>[
                       Positioned(
                         child: Container(
+                          height: SizeConfig.screenHeight!,
                           padding: EdgeInsets.all(3),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20.0),
                             border: Border.all(
                               width: 2.5,
-                              color: RosyBrownColor,
+                              color: Colors.pink.shade100,
                             ),
-                            color: RosyBrownColor,
+                            color: Colors.pink.shade100,
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20.0),
@@ -124,17 +143,17 @@ class _ManageProductsState extends State<ManageProducts> {
                                   Text(
                                     "catogry: ${products[index].pCategory!}",
                                     style:
-                                    TextStyle(fontWeight: FontWeight.bold),
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     "name: ${products[index].pName!}",
                                     style:
-                                    TextStyle(fontWeight: FontWeight.bold),
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     "price: ${products[index].pPrice!}\$",
                                     style:
-                                    TextStyle(fontWeight: FontWeight.bold),
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),

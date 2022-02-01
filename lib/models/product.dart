@@ -9,7 +9,7 @@ class Product {
   String? pImageUrl;
   String? pId;
   double? Prate;
-  int? Pquantity;
+ int? Pquantity;
   int? Pfavorite;
 
   Product(
@@ -20,7 +20,7 @@ class Product {
       this.pImageUrl,
       this.pId,
       this.Prate,
-      this.Pquantity,
+     // this.Pquantity,
       this.Pfavorite});
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -30,7 +30,7 @@ class Product {
         pCategory: json["productCategory"],
         pImageUrl: json["productImageUrl"],
         Prate: json["productRate"],
-        Pquantity: json["productQuantity"],
+      // Pquantity: json["productQuantity"],
         Pfavorite: json["productFavorite"],
       );
 
@@ -40,6 +40,7 @@ class Product {
       pDescription: doc.get("productDescription"),
       pCategory: doc.get("productCategory"),
       pImageUrl: doc.get("productImageUrl"),
+     // Pquantity: doc.get("productQuantity"),
       pId: doc.id);
 
   Map<String, dynamic> toJson() => {
