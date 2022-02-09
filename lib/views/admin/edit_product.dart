@@ -50,7 +50,7 @@ class _EditProductState extends State<EditProduct> {
               size: 35,
             )),
         elevation: 0,
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
           "Edit Product",

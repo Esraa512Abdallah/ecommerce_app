@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
-          nextScreen: UserHomeScreen(),
+          nextScreen: LoginScreen(),
           splashTransition: SplashTransition.fadeTransition,
           backgroundColor: Colors.grey[200]!,
         ),

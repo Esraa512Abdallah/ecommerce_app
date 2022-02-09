@@ -27,29 +27,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     List<Product> products = Provider.of<FavoriteItem>(context).products;
 
     return
-      // appBar: AppBar(
-      //   leading: GestureDetector(
-      //       onTap: () {
-      //         Navigator.pushNamed(context, "UserHomeScreen");
-      //       },
-      //       child: Icon(
-      //         Icons.arrow_back,
-      //         color: primaryTealColor,
-      //         size: 35,
-      //       )),
-      //   centerTitle: true,
-      //   backgroundColor: Colors.white,
-      //   title: Text(
-      //     'My Favorite',
-      //     style: TextStyle(
-      //       fontSize: 25,
-      //       fontWeight: FontWeight.bold,
-      //       fontFamily: 'Pacifico',
-      //       color: primaryTealColor,
-      //     ),
-      //   ),
-      //   elevation: 0,
-      // ),
+
       Container(
         child: Column(
           children: [
