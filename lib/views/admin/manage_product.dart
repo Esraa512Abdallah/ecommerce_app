@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app/helper/constance.dart';
 import 'package:ecommerce_app/helper/sizedConfig.dart';
@@ -39,7 +40,7 @@ class _ManageProductsState extends State<ManageProducts> {
             },
             child: Icon(
               Icons.arrow_back,
-              color: TealColor,
+              color: primaryTealColor,
               size: 35,
             )),
         centerTitle: true,
@@ -50,7 +51,7 @@ class _ManageProductsState extends State<ManageProducts> {
             fontSize: 25,
             fontWeight: FontWeight.bold,
             fontFamily: 'Pacifico',
-            color: TealColor,
+            color: primaryTealColor,
           ),
         ),
         elevation: 0,
@@ -116,12 +117,20 @@ class _ManageProductsState extends State<ManageProducts> {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20.0),
-                            child: Image(
+                            child: CachedNetworkImage(
+                              placeholder: (context , url){
+                                return Center(
+                                  child:
+                                    CircularProgressIndicator(
+                                     color: Colors.grey,
+                                    ),
+                                 );
+                              },
+
+                              imageUrl:"${products[index].pImageUrl}",
                               fit: BoxFit.cover,
-                              image: NetworkImage(
-                                "${products[index].pImageUrl}",
-                              ),
                             ),
+
                           ),
                         ),
                       ),

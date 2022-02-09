@@ -1,3 +1,6 @@
+
+import 'package:badges/badges.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app/helper/constance.dart';
 import 'package:ecommerce_app/helper/sizedConfig.dart';
@@ -6,9 +9,11 @@ import 'package:ecommerce_app/services/auth.dart';
 import 'package:ecommerce_app/services/storage.dart';
 import 'package:ecommerce_app/views/user/cart_screen.dart';
 import 'package:ecommerce_app/views/user/favorite_screen.dart';
+import 'package:ecommerce_app/viewsModel/model_view_cart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class UserHomeScreen extends StatefulWidget {
   @override
@@ -23,9 +28,124 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   final _store = Store();
   List<Product> _products = [];
 
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     bool state = false;
+
+    List<AppBar> screensAppBar =[
+      AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        bottom: (_bottomBarIndex == 0)
+            ? TabBar(
+          padding: EdgeInsets.only(bottom: 5),
+          isScrollable: true,
+          indicatorColor: PinkColor,
+          indicatorSize: TabBarIndicatorSize.tab,
+          onTap: (value) {
+            setState(() {
+              _tabBarIndex = value;
+            });
+          },
+          tabs: <Widget>[
+            Text(
+              'Primer',
+              style: TextStyle(
+                color: _tabBarIndex == 0 ? primaryTealColor : Teal2Color,
+                fontSize: _tabBarIndex == 0 ? 20 : 16,
+                fontWeight:
+                _tabBarIndex == 0 ? FontWeight.bold : null,
+              ),
+            ),
+            Text(
+              'Eyeshadow',
+              style: TextStyle(
+                color: _tabBarIndex == 1 ? primaryTealColor : Teal2Color,
+                fontSize: _tabBarIndex == 1 ? 20 : 16,
+                fontWeight:
+                _tabBarIndex == 1 ? FontWeight.bold : null,
+              ),
+            ),
+            Text(
+              'Mascara',
+              style: TextStyle(
+                color: _tabBarIndex == 2 ? primaryTealColor : Teal2Color,
+                fontSize: _tabBarIndex == 2 ? 20 : 16,
+                fontWeight:
+                _tabBarIndex == 2 ? FontWeight.bold : null,
+              ),
+            ),
+            Text(
+              'Concealer',
+              style: TextStyle(
+                color: _tabBarIndex == 3 ? primaryTealColor : Teal2Color,
+                fontSize: _tabBarIndex == 3 ? 20 : 16,
+                fontWeight:
+                _tabBarIndex == 3 ? FontWeight.bold : null,
+              ),
+            ),
+          ],
+        )
+            : null,
+      ),
+      AppBar(
+        leading: GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, "UserHomeScreen");
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: primaryTealColor,
+              size: 35,
+            )),
+        centerTitle: true,
+        backgroundColor: Colors.grey.shade50,
+        title: Text(
+          'My Bag',
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Pacifico',
+            color: primaryTealColor,
+          ),
+        ),
+        elevation: 0,
+      ),
+      AppBar(
+        leading: GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, "UserHomeScreen");
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: primaryTealColor,
+              size: 35,
+            )),
+        centerTitle: true,
+        backgroundColor: Colors.grey.shade50,
+        title: Text(
+          'My Favorite',
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Pacifico',
+            color: primaryTealColor,
+          ),
+        ),
+        elevation: 0,
+      ),
+      AppBar(
+        backgroundColor: Colors.grey.shade50,
+      )
+    ];
+
+
+    int cartItemLenght = Provider.of<CartItem>(context, listen: false).products.length;
 
     SizeConfig().init(context);
     int _selectedIndex = 0;
@@ -56,6 +176,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         DefaultTabController(
           length: 4,
           child: Scaffold(
+            backgroundColor: Colors.grey[200],
             bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               unselectedItemColor: Colors.grey,
@@ -85,103 +206,135 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 ),
               ],
             ),
-            appBar: AppBar(
-              backgroundColor: Colors.white,
-              elevation: 0,
-              bottom: (_bottomBarIndex == 0)
-                  ? TabBar(
-                      isScrollable: true,
-                      indicatorColor: PinkColor,
-                      onTap: (value) {
-                        setState(() {
-                          _tabBarIndex = value;
-                        });
-                      },
-                      tabs: <Widget>[
-                        Text(
-                          'Primer',
-                          style: TextStyle(
-                            color: _tabBarIndex == 0 ? TealColor : Teal2Color,
-                            fontSize: _tabBarIndex == 0 ? 20 : 16,
-                            fontWeight:
-                                _tabBarIndex == 0 ? FontWeight.bold : null,
-                          ),
-                        ),
-                        Text(
-                          'Eyeshadow',
-                          style: TextStyle(
-                            color: _tabBarIndex == 1 ? TealColor : Teal2Color,
-                            fontSize: _tabBarIndex == 1 ? 20 : 16,
-                            fontWeight:
-                                _tabBarIndex == 1 ? FontWeight.bold : null,
-                          ),
-                        ),
-                        Text(
-                          'Mascara',
-                          style: TextStyle(
-                            color: _tabBarIndex == 2 ? TealColor : Teal2Color,
-                            fontSize: _tabBarIndex == 2 ? 20 : 16,
-                            fontWeight:
-                                _tabBarIndex == 2 ? FontWeight.bold : null,
-                          ),
-                        ),
-                        Text(
-                          'Concealer',
-                          style: TextStyle(
-                            color: _tabBarIndex == 3 ? TealColor : Teal2Color,
-                            fontSize: _tabBarIndex == 3 ? 20 : 16,
-                            fontWeight:
-                                _tabBarIndex == 3 ? FontWeight.bold : null,
-                          ),
-                        ),
-                      ],
-                    )
-                  : null,
-            ),
+            appBar: screensAppBar[_bottomBarIndex],
+            // appBar: AppBar(
+            //
+            //   title: Text(screensAppBarTitles[_bottomBarIndex],
+            //     style: TextStyle(color: Colors.black),
+            //   ),
+            //        centerTitle: true,
+            //   backgroundColor: Colors.white,
+            //   elevation: 0,
+            //   bottom: (_bottomBarIndex == 0)
+            //       ? TabBar(
+            //     padding: EdgeInsets.only(top: 10),
+            //     isScrollable: true,
+            //     indicatorColor: PinkColor,
+            //     onTap: (value) {
+            //       setState(() {
+            //         _tabBarIndex = value;
+            //       });
+            //     },
+            //     tabs: <Widget>[
+            //       Text(
+            //         'Primer',
+            //         style: TextStyle(
+            //           color: _tabBarIndex == 0 ? primaryTealColor : Teal2Color,
+            //           fontSize: _tabBarIndex == 0 ? 20 : 16,
+            //           fontWeight:
+            //           _tabBarIndex == 0 ? FontWeight.bold : null,
+            //         ),
+            //       ),
+            //       Text(
+            //         'Eyeshadow',
+            //         style: TextStyle(
+            //           color: _tabBarIndex == 1 ? primaryTealColor : Teal2Color,
+            //           fontSize: _tabBarIndex == 1 ? 20 : 16,
+            //           fontWeight:
+            //           _tabBarIndex == 1 ? FontWeight.bold : null,
+            //         ),
+            //       ),
+            //       Text(
+            //         'Mascara',
+            //         style: TextStyle(
+            //           color: _tabBarIndex == 2 ? primaryTealColor : Teal2Color,
+            //           fontSize: _tabBarIndex == 2 ? 20 : 16,
+            //           fontWeight:
+            //           _tabBarIndex == 2 ? FontWeight.bold : null,
+            //         ),
+            //       ),
+            //       Text(
+            //         'Concealer',
+            //         style: TextStyle(
+            //           color: _tabBarIndex == 3 ? primaryTealColor : Teal2Color,
+            //           fontSize: _tabBarIndex == 3 ? 20 : 16,
+            //           fontWeight:
+            //           _tabBarIndex == 3 ? FontWeight.bold : null,
+            //         ),
+            //       ),
+            //     ],
+            //   )
+            //       : null,
+            // ),
             body: Screens[_bottomBarIndex],
           ),
         ),
         (_bottomBarIndex == 0)
-            ? Material(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * .1,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          'Eyeliner Store',
-                          style: TextStyle(
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Pacifico',
-                            color: Colors.pink.shade200,
-                          ),
-                        ),
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(context, "CartScreen");
-                            },
-                            child: Icon(
-                              Icons.shopping_cart,
-                              size: 35,
-                              color: TealColor,
-                            ))
-                      ],
+            ?  Material(
+
+
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(20, 50, 20, 0),
+
+            child: Container(
+              height: MediaQuery.of(context).size.height * .1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Eyeliner Store',
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Pacifico',
+                      color: Colors.pink.shade200,
                     ),
                   ),
-                ),
-              )
-            : Material(
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, "CartScreen");
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 12.0),
+                      child: Badge(
+
+
+                        badgeColor: Colors.white,
+                        badgeContent: Text("$cartItemLenght",style:TextStyle( color:primaryPinkColor)),
+                        child: Icon(
+
+                          Icons.shopping_cart,
+                          size: 35,
+                          color: primaryTealColor,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+          ),
+
+        )
+            :  Material(
+
+
+            child: Padding(
+            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+
+        child: Container(
+          height: MediaQuery.of(context).size.height * .1,
                 child: Container(
-                  height: 85,
-                  color: Colors.grey[100],
-                ),
-              )
+            //height: 1,
+            //color: Colors.grey[100],
+          ),
+        )
+    ),),
       ],
     );
   }
+
 
   Widget ProductView(String productCategory) {
     return StreamBuilder<QuerySnapshot>(
@@ -210,7 +363,9 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                   },
                   child: Stack(children: <Widget>[
                     Positioned(
+
                       child: Container(
+
                         height: SizeConfig.screenHeight! * .8,
                         width: SizeConfig.screenWidth!,
                         padding: EdgeInsets.all(3),
@@ -224,12 +379,18 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20.0),
-                          child: Image(
+
+                          child: CachedNetworkImage(
+                            placeholder: (context , url){
+                              return Center(child: CircularProgressIndicator(
+                                color: Colors.grey,
+                              ));
+                            },
+                            imageUrl: "${products[index].pImageUrl}",
                             fit: BoxFit.cover,
-                            image: NetworkImage(
-                              "${products[index].pImageUrl}",
-                            ),
                           ),
+
+
                         ),
                       ),
                     ),
@@ -299,3 +460,5 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
     );
   }
 }
+
+

@@ -31,7 +31,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             },
             child: Icon(
               Icons.arrow_back,
-              color: TealColor,
+              color: primaryTealColor,
               size: 35,
             )),
         title: Text(
@@ -40,7 +40,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             fontSize: 22,
             fontWeight: FontWeight.bold,
             fontFamily: 'Pacifico',
-            color: TealColor,
+            color: primaryTealColor,
           ),
         ),
         centerTitle: true,
@@ -184,7 +184,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
-                                      color: TealColor),
+                                      color: primaryTealColor,
+                                  ),
                                 ),
                               ),
                             ),
@@ -210,7 +211,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
-                                      color: TealColor),
+                                      color: primaryTealColor,
+                                  ),
                                 ),
                               ),
                             ),

@@ -25,7 +25,7 @@ class _OrderScreenState extends State<OrderScreen> {
             },
             child: Icon(
               Icons.arrow_back,
-              color: TealColor,
+              color: primaryTealColor,
               size: 35,
             )),
         backgroundColor: Colors.white,
@@ -35,7 +35,7 @@ class _OrderScreenState extends State<OrderScreen> {
             fontSize: 22,
             fontWeight: FontWeight.bold,
             fontFamily: 'Pacifico',
-            color: TealColor,
+            color: primaryTealColor,
           ),
         ),
         centerTitle: true,
@@ -82,14 +82,14 @@ class _OrderScreenState extends State<OrderScreen> {
                                     Text(
                                       "Total Price of order:",
                                       style: TextStyle(
-                                          color: Colors.pink.shade300,
+                                          color: primaryPinkColor,
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
                                       "  \$ ${orders[index].TotalPrice}",
                                       style: TextStyle(
-                                          color: TealColor, fontSize: 20),
+                                          color: primaryTealColor, fontSize: 20),
                                     ),
                                   ],
                                 ),
@@ -101,14 +101,14 @@ class _OrderScreenState extends State<OrderScreen> {
                                     Text(
                                       "User Address:  ",
                                       style: TextStyle(
-                                          color: Colors.pink.shade300,
+                                          color: primaryPinkColor,
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
                                       "${orders[index].Address}",
                                       style: TextStyle(
-                                          color: TealColor, fontSize: 20),
+                                          color: primaryTealColor, fontSize: 20),
                                     ),
                                   ],
                                 ),

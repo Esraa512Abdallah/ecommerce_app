@@ -42,7 +42,7 @@ class CustomTextFeild extends StatelessWidget {
         }
       },
       onSaved: onClick,
-      cursorColor: TealColor,
+      cursorColor: primaryTealColor,
       textDirection: TextDirection.ltr,
       keyboardType: keyboardType,
       obscureText: (hintText == "Enter your password") ? true : false,

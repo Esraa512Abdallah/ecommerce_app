@@ -7,6 +7,7 @@ import 'package:ecommerce_app/services/storage.dart';
 import 'package:ecommerce_app/views/widgets/custom_textfeild.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditProduct extends StatefulWidget {
@@ -45,7 +46,7 @@ class _EditProductState extends State<EditProduct> {
             },
             child: Icon(
               Icons.arrow_back,
-              color: TealColor,
+              color: primaryTealColor,
               size: 35,
             )),
         elevation: 0,
@@ -56,7 +57,7 @@ class _EditProductState extends State<EditProduct> {
           style: TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 25,
-              color: TealColor,
+              color: primaryTealColor,
               fontFamily: 'Pacifico'),
         ),
       ),
@@ -176,7 +177,7 @@ class _EditProductState extends State<EditProduct> {
                 padding: EdgeInsets.only(
                     top: SizeConfig.defaultSize! * 1, left: 60, right: 60),
                 child: RaisedButton(
-                  color: TealColor,
+                  color: primaryTealColor,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
                     Radius.circular(30),
@@ -191,11 +192,11 @@ class _EditProductState extends State<EditProduct> {
                       }
 
                       _store.editProduct({
-                        kProductName: _name,
-                        kProductPrice: _price,
-                        kProductDescription: _description,
-                        kProductCategory: _catogry,
-                        kProductImage: _imageUrl,
+                        "productName": _name,
+                        "productPrice": _price,
+                        "productDescription": _description,
+                        "productCategory": _catogry,
+                        "productImageUrl": _imageUrl,
                       }, product.pId);
 
                       _globalKey.currentState!.reset();
@@ -253,14 +254,31 @@ class _EditProductState extends State<EditProduct> {
       TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() async {
         _imageUrl = await ref.getDownloadURL();
       });
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text('success'),
-      ));
+      Fluttertoast.showToast(
+        msg: "  Successful adjustment  ",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 12,
+        backgroundColor: Colors.grey[200],
+        textColor: primaryPinkColor,
+        webPosition:"right" ,
+        fontSize: 20.0,
+
+      );
+
     } catch (ex) {
-      print("exception is:$ex");
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text("$ex"),
-      ));
+      Fluttertoast.showToast(
+        msg: "Image exception...: $ex",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 12,
+        backgroundColor: Colors.grey[200],
+        textColor: primaryPinkColor,
+        webPosition:"right" ,
+        fontSize: 20.0,
+      );
+      print("image exception : $ex");
+
     }
   }
 
@@ -282,13 +300,29 @@ class _EditProductState extends State<EditProduct> {
         });
       });
 
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text('success'),
-      ));
+      Fluttertoast.showToast(
+        msg: "  Successful adjustment  ",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 12,
+        backgroundColor: Colors.grey[200],
+        textColor: primaryPinkColor,
+        webPosition:"right" ,
+        fontSize: 20.0,
+
+      );
     } catch (ex) {
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text("$ex"),
-      ));
+      Fluttertoast.showToast(
+        msg: "Image exception...: $ex",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 12,
+        backgroundColor: Colors.grey[200],
+        textColor: primaryPinkColor,
+        webPosition:"right" ,
+        fontSize: 20.0,
+      );
+      print(ex);
     }
   }
 }

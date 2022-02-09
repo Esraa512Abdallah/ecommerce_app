@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce_app/helper/constance.dart';
 import 'package:ecommerce_app/helper/sizedConfig.dart';
 import 'package:ecommerce_app/models/product.dart';
 import 'package:ecommerce_app/services/storage.dart';
 import 'package:ecommerce_app/views/widgets/custom_mypopupmenuitem.dart';
+import 'package:ecommerce_app/viewsModel/model_view_cart.dart';
 import 'package:ecommerce_app/viewsModel/model_view_favorite.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,31 +26,31 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     var SCH = SizeConfig.screenHeight!;
     List<Product> products = Provider.of<FavoriteItem>(context).products;
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, "UserHomeScreen");
-            },
-            child: Icon(
-              Icons.arrow_back,
-              color: TealColor,
-              size: 35,
-            )),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        title: Text(
-          'My Favorite',
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Pacifico',
-            color: TealColor,
-          ),
-        ),
-        elevation: 0,
-      ),
-      body: Container(
+    return
+      // appBar: AppBar(
+      //   leading: GestureDetector(
+      //       onTap: () {
+      //         Navigator.pushNamed(context, "UserHomeScreen");
+      //       },
+      //       child: Icon(
+      //         Icons.arrow_back,
+      //         color: primaryTealColor,
+      //         size: 35,
+      //       )),
+      //   centerTitle: true,
+      //   backgroundColor: Colors.white,
+      //   title: Text(
+      //     'My Favorite',
+      //     style: TextStyle(
+      //       fontSize: 25,
+      //       fontWeight: FontWeight.bold,
+      //       fontFamily: 'Pacifico',
+      //       color: primaryTealColor,
+      //     ),
+      //   ),
+      //   elevation: 0,
+      // ),
+      Container(
         child: Column(
           children: [
             Expanded(
@@ -62,170 +64,180 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 itemCount: products.length,
                 itemBuilder: (context, index) {
                   if (products.isNotEmpty) {
-                    return GestureDetector(
-                      onTapUp: (details) {
-                        double dx = details.globalPosition.dx;
-                        double dy = details.globalPosition.dy;
-                        double dx2 = MediaQuery.of(context).size.width - dx;
-                        double dy2 = MediaQuery.of(context).size.height - dy;
+                    return Card(
 
-                        showMenu(
-                            context: context,
-                            position: RelativeRect.fromLTRB(dx, dy, dx2, dy2),
-                            items: [
-                              MyPopupMenuItem(
-                                child: Text("Delete"),
-                                onClick: () {
-                                  Navigator.pop(context);
-                                  Provider.of<FavoriteItem>(context,
-                                          listen: false)
-                                      .DeleteProductFromFavorite(
-                                          products[index]);
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Row(
+                        children: [
+
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: SizeConfig.screenHeight! / 4,
+                              margin: EdgeInsets.only(
+                                  left: 10, top: 10, bottom: 10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(30),
+                                ),
+                              ),
+                              child:  CachedNetworkImage(
+                                placeholder: (context , url){
+                                  return Center(child: CircularProgressIndicator(
+                                    color: Colors.grey,
+                                  ));
                                 },
-                              ),
-                            ]);
-                      },
-                      child: Card(
-                        color: Colors.grey[100],
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                height: SizeConfig.screenHeight! / 4,
-                                margin: EdgeInsets.only(
-                                    left: 10, top: 10, bottom: 10),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(30),
-                                  ),
-                                ),
-                                child: Image.network(
-                                  products[index].pImageUrl!,
-                                  height: 100,
-                                ),
+                                height: 100,
+                                imageUrl: "${products[index].pImageUrl}",
+                                fit: BoxFit.cover,
                               ),
                             ),
-                            Expanded(
-                              flex: 3,
-                              child: Container(
-                                height: SizeConfig.screenHeight! / 4,
-                                padding: EdgeInsets.only(
-                                  left: SizeConfig.defaultSize! * 1.5,
-                                  top: SizeConfig.defaultSize! * 4,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      products[index].pName!,
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: TealColor,
-                                          overflow: TextOverflow.ellipsis),
-                                    ),
-                                    SizedBox(
-                                      height: SizeConfig.defaultSize! * 1.2,
-                                    ),
-                                    Text(
-                                      "${products[index].pCategory!} ",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500,
-                                          color: Teal2Color,
-                                          overflow: TextOverflow.ellipsis),
-                                    ),
-                                    SizedBox(
-                                      height: SizeConfig.defaultSize! * 1.2,
-                                    ),
-                                    Row(
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Container(
+                              height: SizeConfig.screenHeight! / 3,
+                              padding: EdgeInsets.only(
+                                left: SizeConfig.defaultSize! * 1.5,
+                                top: SizeConfig.defaultSize! * 4,
+                              ),
+                              child: Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.stretch,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right:30),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      // crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
-                                        Text(
-                                          "${products[index].pPrice!} \$",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500,
-                                              color: Teal2Color,
-                                              overflow: TextOverflow.ellipsis),
-                                        ),
-                                        SizedBox(
-                                          width: SizeConfig.defaultSize! * 10,
-                                        ),
-                                        Text(
-                                          "${products[index].Pquantity!.toString()} ",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500,
-                                              color: Teal2Color,
-                                              overflow: TextOverflow.ellipsis),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: SizeConfig.defaultSize! * 1.2,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Stack(
-                                          children: [
-                                            Icon(
-                                              Icons.star,
-                                              size: 55,
-                                              color: Colors.pink.shade300,
-                                            ),
-                                            Positioned(
-                                              left: 5,
-                                              top: 3,
-                                              child: Text(
-                                                products[index]
-                                                    .Prate
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    color: TealColor,
-                                                    fontSize: 40),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          width: SizeConfig.defaultSize! * 8,
-                                        ),
+
+
                                         Container(
-                                          child: (products[index].Pfavorite ==
-                                                  1)
-                                              ? Icon(
-                                                  Icons.favorite,
-                                                  color: Colors.pink.shade500,
-                                                  size: 35,
-                                                )
-                                              : (products[index].Pfavorite == 0)
-                                                  ? Icon(
-                                                      Icons.favorite_border,
-                                                      color:
-                                                          Colors.pink.shade500,
-                                                      size: 35,
-                                                    )
-                                                  : Icon(
-                                                      Icons.favorite_border,
-                                                      color:
-                                                          Colors.pink.shade500,
-                                                      size: 35,
-                                                    ),
+
+                                          child: MaterialButton(
+                                            onPressed: (){
+
+                                              Provider.of<FavoriteItem>(context, listen: false)
+                                                  .DeleteProductFromFavorite(products[index]);
+                                            },
+                                            child: Icon(
+                                              Icons.delete,
+                                              color: primaryPinkColor,
+                                              size: 35,
+                                            ),
+                                          ),
+                                          width: 35,
                                         ),
                                       ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  Text(
+                                    products[index].pName!,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: primaryTealColor,
+                                        overflow: TextOverflow.ellipsis),
+                                  ),
+                                  SizedBox(
+                                    height: SizeConfig.defaultSize! * 1.2,
+                                  ),
+                                  Text(
+                                    "${products[index].pCategory!} ",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                        color: Teal2Color,
+                                        overflow: TextOverflow.ellipsis),
+                                  ),
+                                  SizedBox(
+                                    height: SizeConfig.defaultSize! * 1.2,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "${products[index].pPrice!} \$",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color: Teal2Color,
+                                            overflow: TextOverflow.ellipsis),
+                                      ),
+                                      SizedBox(
+                                        width: SizeConfig.defaultSize! * 10,
+                                      ),
+                                      Text(
+                                        "${products[index].Pquantity!.toString()} ",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color: Teal2Color,
+                                            overflow: TextOverflow.ellipsis),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: SizeConfig.defaultSize! * 1.2,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Stack(
+                                        children: [
+                                          Icon(
+                                            Icons.star,
+                                            size: 55,
+                                            color: primaryPinkColor,
+                                          ),
+                                          Positioned(
+                                            left:2,
+                                            top: 3,
+                                            child: Text(
+                                              products[index]
+                                                  .Prate
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  color: primaryTealColor,
+                                                  fontSize: 40),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        width: SizeConfig.defaultSize! * 8,
+                                      ),
+                                      Container(
+                                        child: (products[index].Pfavorite ==
+                                                1)
+                                            ? Icon(
+                                                Icons.favorite,
+                                                color: primaryPinkColor,
+                                                size: 35,
+                                              )
+                                            : (products[index].Pfavorite == 0)
+                                                ? Icon(
+                                                    Icons.favorite_border,
+                                                    color:
+                                                        primaryPinkColor,
+                                                    size: 35,
+                                                  )
+                                                : Icon(
+                                                    Icons.favorite_border,
+                                                    color:
+                                                        primaryPinkColor,
+                                                    size: 35,
+                                                  ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     );
                   } else {
@@ -248,7 +260,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             ),
           ],
         ),
-      ),
-    );
+      );
+
   }
 }

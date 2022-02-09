@@ -22,7 +22,7 @@ class AdminHomeScreen extends StatelessWidget {
             },
             child: Icon(
               Icons.close,
-              color: TealColor,
+              color: primaryTealColor,
               size: 35,
             )),
         elevation: 0,
@@ -60,7 +60,7 @@ class AdminHomeScreen extends StatelessWidget {
                       ),
                       Text(
                         "Add Product",
-                        style: TextStyle(color: TealColor, fontSize: 25),
+                        style: TextStyle(color: primaryTealColor, fontSize: 25),
                       ),
                     ],
                   ),
@@ -85,7 +85,7 @@ class AdminHomeScreen extends StatelessWidget {
                       ),
                       Text(
                         "Manage Products",
-                        style: TextStyle(color: TealColor, fontSize: 25),
+                        style: TextStyle(color: primaryTealColor, fontSize: 25),
                       ),
                     ],
                   ),
@@ -110,7 +110,7 @@ class AdminHomeScreen extends StatelessWidget {
                       ),
                       Text(
                         "View Order",
-                        style: TextStyle(color: TealColor, fontSize: 25),
+                        style: TextStyle(color: primaryTealColor, fontSize: 25),
                       ),
                     ],
                   ),

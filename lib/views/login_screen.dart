@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           PaleBlueColor,
                           MiddleBlueGreenColor,
                           VerdigrisColor,
-                          TealColor,
+                          primaryTealColor,
                         ],
                       ),
                     ),
@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             fillColor: FeildfillColor,
                             hintText: "Enter your email",
                             icon: Icons.mail,
-                            iconcolor: TealColor,
+                            iconcolor: primaryTealColor,
                             keyboardType: TextInputType.emailAddress,
                             onClick: (value) {
                               _email = value!;
@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             fillColor: FeildfillColor,
                             hintText: "Enter your password",
                             icon: Icons.lock,
-                            iconcolor: TealColor,
+                            iconcolor: primaryTealColor,
                             keyboardType: TextInputType.visiblePassword,
                             onClick: (value) {
                               _password = value!;
@@ -118,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           PaleBlueColor,
                                           MiddleBlueGreenColor,
                                           VerdigrisColor,
-                                          TealColor,
+                                          primaryTealColor,
                                         ]),
                                   ),
                                   child: Center(
@@ -149,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Text(
                                   "SignUp",
                                   style:
-                                      TextStyle(color: TealColor, fontSize: 16),
+                                      TextStyle(color: primaryTealColor, fontSize: 16),
                                 ),
                                 onTap: () {
                                   Navigator.pushNamed(context, "SignUpScreen");
@@ -191,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 1,
-            backgroundColor: TealColor,
+            backgroundColor: primaryTealColor,
             textColor: Colors.black,
             fontSize: 16.0,
           );
@@ -209,7 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 1,
-            backgroundColor: TealColor,
+            backgroundColor: primaryTealColor,
             textColor: Colors.black,
             fontSize: 16.0,
           );

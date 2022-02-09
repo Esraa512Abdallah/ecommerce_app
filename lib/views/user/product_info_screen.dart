@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce_app/helper/constance.dart';
 import 'package:ecommerce_app/models/product.dart';
@@ -7,6 +8,7 @@ import 'package:ecommerce_app/viewsModel/model_view_favorite.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class ProductInfo extends StatefulWidget {
@@ -38,6 +40,9 @@ class _ProductInfoState extends State<ProductInfo> {
 
   @override
   Widget build(BuildContext context) {
+
+    int cartItemLenght = Provider.of<CartItem>(context, listen: false).products.length;
+
     Product? product = ModalRoute.of(context)!.settings.arguments as Product?;
     if (product!.pDescription!.length > 50) {
       firstHalf = product.pDescription!.substring(0, 50);
@@ -83,19 +88,23 @@ class _ProductInfoState extends State<ProductInfo> {
                           },
                           child: Icon(
                             Icons.arrow_back,
-                            color: TealColor,
+                            color: primaryTealColor,
                             size: 35,
                           )),
-                      GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, "CartScreen",
-                                arguments: product);
-                          },
+                      Padding(
+                        padding: const EdgeInsets.only(right: 12.0),
+                        child: Badge(
+
+                          badgeColor: Colors.white,
+                          badgeContent: Text("$cartItemLenght",style:TextStyle( color:primaryPinkColor)),
                           child: Icon(
+
                             Icons.shopping_cart,
-                            color: TealColor,
                             size: 35,
-                          ))
+                            color: primaryTealColor,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -259,6 +268,7 @@ class _ProductInfoState extends State<ProductInfo> {
                     ),
                     Row(
                       children: [
+
                         ButtonTheme(
                           minWidth: MediaQuery.of(context).size.width * .2,
                           height: MediaQuery.of(context).size.height * .08,
@@ -283,17 +293,36 @@ class _ProductInfoState extends State<ProductInfo> {
                                   }
                                 }
                                 if (exsit) {
-                                  Scaffold.of(context).showSnackBar(SnackBar(
-                                    content:
-                                        Text('you\'ve added this item before'),
-                                  ));
+
+                                  Fluttertoast.showToast(
+                                    msg: 'you\'ve added this item before',
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 12,
+                                    backgroundColor: Colors.grey[200],
+                                    textColor: primaryPinkColor,
+                                    webPosition:"right" ,
+                                    fontSize: 20.0,
+
+                                  );
+
                                 } else {
                                   favoriteItem.AddProductToFavorite(product);
                                   product.Prate = rate;
                                   product.Pquantity = _quantity;
-                                  Scaffold.of(context).showSnackBar(SnackBar(
-                                    content: Text('Added to favorite'),
-                                  ));
+
+                                  Fluttertoast.showToast(
+                                    msg: "  Added to favorite  ",
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 12,
+                                    backgroundColor: Colors.grey[200],
+                                    textColor: primaryPinkColor,
+                                    webPosition:"right" ,
+                                    fontSize: 20.0,
+
+                                  );
+
                                 }
 
                                 setState(() {
@@ -304,18 +333,18 @@ class _ProductInfoState extends State<ProductInfo> {
                               child: (favor == 1)
                                   ? Icon(
                                       Icons.favorite,
-                                      color: Colors.pink.shade500,
+                                      color: primaryPinkColor,
                                       size: 35,
                                     )
                                   : (favor == 0)
                                       ? Icon(
                                           Icons.favorite_border,
-                                          color: Colors.pink.shade500,
+                                          color: primaryPinkColor,
                                           size: 35,
                                         )
                                       : Icon(
                                           Icons.favorite_border,
-                                          color: Colors.pink.shade500,
+                                          color: primaryPinkColor,
                                           size: 35,
                                         ),
                             ),
@@ -330,7 +359,7 @@ class _ProductInfoState extends State<ProductInfo> {
                                   borderRadius: BorderRadius.all(
                                 Radius.circular(20),
                               )),
-                              color: Colors.pink.shade200,
+                              color: primaryPinkColor,
                               onPressed: () {
                                 CartItem cartItem = Provider.of<CartItem>(
                                     context,
@@ -345,17 +374,37 @@ class _ProductInfoState extends State<ProductInfo> {
                                   }
                                 }
                                 if (exsit) {
-                                  Scaffold.of(context).showSnackBar(SnackBar(
-                                    content:
-                                        Text('you\'ve added this item before'),
-                                  ));
+                                  Fluttertoast.showToast(
+
+                                    msg: 'you\'ve added this item before',
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 12,
+                                    backgroundColor: Colors.grey[200],
+                                    textColor: primaryPinkColor,
+                                    webPosition:"right" ,
+                                    fontSize: 20.0,
+                                  );
+
                                 } else {
                                   cartItem.AddProductToCart(product);
                                   product.Prate = rate;
                                   product.Pquantity = _quantity;
-                                  Scaffold.of(context).showSnackBar(SnackBar(
+
+                                  Fluttertoast.showToast(
+                                    msg:  '     Added to Cart     ',
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 12,
+                                    backgroundColor: Colors.grey[200],
+                                    textColor: primaryPinkColor,
+                                     webPosition:"right" ,
+                                    fontSize: 20.0,
+                                  );
+                                 /* Scaffold.of(context).showSnackBar(SnackBar(
                                     content: Text('Added to Cart'),
-                                  ));
+                                  )*/
+                                 // );
                                 }
                               },
                               child: Text(
@@ -363,13 +412,14 @@ class _ProductInfoState extends State<ProductInfo> {
                                 style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
-                                    color: TealColor),
+                                    color: primaryTealColor),
                               ),
                             ),
                           ),
                         ),
                       ],
                     ),
+
                   ],
                 ),
               ),

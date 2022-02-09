@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce_app/helper/constance.dart';
 import 'package:ecommerce_app/helper/sizedConfig.dart';
 import 'package:ecommerce_app/models/product.dart';
@@ -6,6 +7,7 @@ import 'package:ecommerce_app/views/widgets/custom_mypopupmenuitem.dart';
 import 'package:ecommerce_app/viewsModel/model_view_cart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class CartScreen extends StatefulWidget {
@@ -24,31 +26,9 @@ class _CartScreenState extends State<CartScreen> {
     var SCH = SizeConfig.screenHeight!;
     List<Product> products = Provider.of<CartItem>(context).products;
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, "UserHomeScreen");
-            },
-            child: Icon(
-              Icons.arrow_back,
-              color: TealColor,
-              size: 35,
-            )),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        title: Text(
-          'My Bag',
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Pacifico',
-            color: TealColor,
-          ),
-        ),
-        elevation: 0,
-      ),
-      body: Container(
+    return
+
+      Container(
         child: Column(
           children: [
             Expanded(
@@ -62,178 +42,203 @@ class _CartScreenState extends State<CartScreen> {
                 itemCount: products.length,
                 itemBuilder: (context, index) {
                   if (products.isNotEmpty) {
-                    return GestureDetector(
-                      onTapUp: (details) {
-                        double dx = details.globalPosition.dx;
-                        double dy = details.globalPosition.dy;
-                        double dx2 = MediaQuery.of(context).size.width - dx;
-                        double dy2 = MediaQuery.of(context).size.height - dy;
+                    return Card(
 
-                        showMenu(
-                            context: context,
-                            position: RelativeRect.fromLTRB(dx, dy, dx2, dy2),
-                            items: [
-                              MyPopupMenuItem(
-                                child: Text("Edit"),
-                                onClick: () {
-                                  Navigator.pop(context);
-                                  Navigator.pushNamed(context, "ProductInfo",
-                                      arguments: products[index]);
-                                  Provider.of<CartItem>(context, listen: false)
-                                      .DeleteProductFromCart(products[index]);
-                                },
-                              ),
-                              MyPopupMenuItem(
-                                child: Text("Delete"),
-                                onClick: () {
-                                  Navigator.pop(context);
-                                  Provider.of<CartItem>(context, listen: false)
-                                      .DeleteProductFromCart(products[index]);
-                                },
-                              ),
-                            ]);
-                      },
-                      child: Card(
-                        color: Colors.grey[100],
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                height: SizeConfig.screenHeight! / 4,
-                                margin: EdgeInsets.only(
-                                    left: 10, top: 10, bottom: 10),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(30),
-                                  ),
+
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: SizeConfig.screenHeight! / 4,
+                              margin: EdgeInsets.only(
+                                  left: 10, top: 10, bottom: 10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(30),
                                 ),
-                                child: Image.network(
-                                  products[index].pImageUrl!,
-                                  height: 100,
-                                ),
+                              ),
+                              child: CachedNetworkImage(
+                                placeholder: (context , url){
+                                  return Center(child: CircularProgressIndicator(
+                                    color: Colors.grey,
+                                  ));
+                                },
+                                height: 100,
+                                imageUrl: "${products[index].pImageUrl}",
+                                fit: BoxFit.cover,
                               ),
                             ),
-                            Expanded(
-                              flex: 3,
-                              child: Container(
-                                height: SizeConfig.screenHeight! / 4,
-                                padding: EdgeInsets.only(
-                                  left: SizeConfig.defaultSize! * 1.5,
-                                  top: SizeConfig.defaultSize! * 4,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      products[index].pName!,
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: TealColor,
-                                          overflow: TextOverflow.ellipsis),
-                                    ),
-                                    SizedBox(
-                                      height: SizeConfig.defaultSize! * 1.2,
-                                    ),
-                                    Text(
-                                      "${products[index].pCategory!} ",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500,
-                                          color: Teal2Color,
-                                          overflow: TextOverflow.ellipsis),
-                                    ),
-                                    SizedBox(
-                                      height: SizeConfig.defaultSize! * 1.2,
-                                    ),
-                                    Row(
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Container(
+                              height: SizeConfig.screenHeight! / 3,
+                              padding: EdgeInsets.only(
+                                left: SizeConfig.defaultSize! * 1.5,
+                                top: SizeConfig.defaultSize! * 4,
+                              ),
+                              child: Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.stretch,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 25),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      // crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
-                                        Text(
-                                          "${products[index].pPrice!} \$",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500,
-                                              color: Teal2Color,
-                                              overflow: TextOverflow.ellipsis),
-                                        ),
-                                        SizedBox(
-                                          width: SizeConfig.defaultSize! * 10,
-                                        ),
-                                        Text(
-                                          "${products[index].Pquantity!.toString()} ",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500,
-                                              color: Teal2Color,
-                                              overflow: TextOverflow.ellipsis),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: SizeConfig.defaultSize! * 1.2,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Stack(
-                                          children: [
-                                            Icon(
-                                              Icons.star,
-                                              size: 55,
-                                              color: Colors.pink.shade300,
-                                            ),
-                                            Positioned(
-                                              left: 5,
-                                              top: 3,
-                                              child: Text(
-                                                products[index]
-                                                    .Prate
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    color: TealColor,
-                                                    fontSize: 40),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          width: SizeConfig.defaultSize! * 8,
-                                        ),
                                         Container(
-                                          child: (products[index].Pfavorite ==
-                                                  1)
-                                              ? Icon(
-                                                  Icons.favorite,
-                                                  color: Colors.pink.shade300,
-                                                  size: 35,
-                                                )
-                                              : (products[index].Pfavorite == 0)
-                                                  ? Icon(
-                                                      Icons.favorite_border,
-                                                      color:
-                                                          Colors.pink.shade300,
-                                                      size: 35,
-                                                    )
-                                                  : Icon(
-                                                      Icons.favorite_border,
-                                                      color:
-                                                          Colors.pink.shade300,
-                                                      size: 35,
-                                                    ),
+
+                                          child: MaterialButton(
+                                            onPressed: (){
+                                              Navigator.pop(context);
+                                              Navigator.pushNamed(context, "ProductInfo",
+                                                  arguments: products[index]);
+
+                                              Provider.of<CartItem>(context, listen: false)
+                                                  .DeleteProductFromCart(products[index]);
+                                            },
+                                            child: Icon(
+                                              Icons.edit,
+                                              color: primaryPinkColor,
+                                              size: 35,
+                                            ),
+                                          ),
+                                          width: 35,
+                                        ),
+
+                                        SizedBox(width: 7,),
+                                        Container(
+
+                                          child: MaterialButton(
+                                            onPressed: (){
+                                              // Navigator.pop(context);
+                                              Provider.of<CartItem>(context, listen: false)
+                                                  .DeleteProductFromCart(products[index]);
+                                            },
+                                            child: Icon(
+                                              Icons.delete,
+                                              color: primaryPinkColor,
+                                              size: 35,
+                                            ),
+                                          ),
+                                          width: 35,
                                         ),
                                       ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  SizedBox(
+                                    height: SizeConfig.defaultSize! * .8,
+                                  ),
+                                  Text(
+                                    products[index].pName!,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: primaryTealColor,
+                                        overflow: TextOverflow.ellipsis),
+                                  ),
+                                  SizedBox(
+                                    height: SizeConfig.defaultSize! * 1.2,
+                                  ),
+                                  Text(
+                                    "${products[index].pCategory!} ",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                        color: Teal2Color,
+                                        overflow: TextOverflow.ellipsis),
+                                  ),
+                                  SizedBox(
+                                    height: SizeConfig.defaultSize! * 1.2,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "${products[index].pPrice!} \$",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color: Teal2Color,
+                                            overflow: TextOverflow.ellipsis),
+                                      ),
+                                      SizedBox(
+                                        width: SizeConfig.defaultSize! * 10,
+                                      ),
+                                      Text(
+                                        "${products[index].Pquantity!.toString()} ",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color: Teal2Color,
+                                            overflow: TextOverflow.ellipsis),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: SizeConfig.defaultSize! * 1.2,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Stack(
+                                        children: [
+                                          Icon(
+                                            Icons.star,
+                                            size: 55,
+                                            color: primaryPinkColor,
+                                          ),
+                                          Positioned(
+                                            left:2,
+                                            top: 3,
+                                            child: Text(
+                                              products[index]
+                                                  .Prate
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  color: primaryTealColor,
+                                                  fontSize: 40),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        width: SizeConfig.defaultSize! * 8,
+                                      ),
+                                      Container(
+                                        child: (products[index].Pfavorite ==
+                                            1)
+                                            ? Icon(
+                                          Icons.favorite,
+                                          color: primaryPinkColor,
+                                          size: 35,
+                                        )
+                                            : (products[index].Pfavorite == 0)
+                                            ? Icon(
+                                          Icons.favorite_border,
+                                          color:
+                                          primaryPinkColor,
+                                          size: 35,
+                                        )
+                                            : Icon(
+                                          Icons.favorite_border,
+                                          color:
+                                          primaryPinkColor,
+                                          size: 35,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     );
                   } else {
@@ -285,7 +290,7 @@ class _CartScreenState extends State<CartScreen> {
                       borderRadius: BorderRadius.only(
                           topRight: Radius.circular(20),
                           topLeft: Radius.circular(20))),
-                  color: Colors.pink.shade300,
+                  color: primaryPinkColor,
                   onPressed: () {
                     showCustomDialog(context, products);
                   },
@@ -294,15 +299,15 @@ class _CartScreenState extends State<CartScreen> {
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: TealColor),
+                        color: primaryTealColor),
                   ),
                 ),
               ),
             ),
           ],
         ),
-      ),
-    );
+      );
+
   }
 
   void showCustomDialog(context, products) async {
@@ -319,9 +324,18 @@ class _CartScreenState extends State<CartScreen> {
                 _store.storeOrders(
                     {"TotalPrice": price, "Address": address}, products);
 
-                Scaffold.of(context).showSnackBar(SnackBar(
-                  content: Text('Orderd Successfully'),
-                ));
+
+                Fluttertoast.showToast(
+                  msg:  'Orderd Successfully',
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 12,
+                  backgroundColor: Colors.grey[200],
+                  textColor: primaryPinkColor,
+                  webPosition:"right" ,
+                  fontSize: 20.0,
+                );
+
                 Navigator.pop(context);
               } catch (ex) {
                 //print(ex.message);
@@ -331,7 +345,7 @@ class _CartScreenState extends State<CartScreen> {
             height: MediaQuery.of(context).size.height * .05,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(20))),
-            color: Colors.pink.shade300,
+            color: primaryPinkColor,
             child: Text('Confirm'),
           ),
         )
@@ -358,3 +372,4 @@ class _CartScreenState extends State<CartScreen> {
     return price;
   }
 }
+

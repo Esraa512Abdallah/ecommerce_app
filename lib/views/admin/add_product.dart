@@ -8,6 +8,7 @@ import 'package:ecommerce_app/views/widgets/custom_textfeild.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddProductScreen extends StatefulWidget {
@@ -44,7 +45,7 @@ class AddProductScreenState extends State<AddProductScreen> {
             },
             child: Icon(
               Icons.arrow_back,
-              color: TealColor,
+              color: primaryTealColor,
               size: 35,
             )),
         elevation: 0,
@@ -55,7 +56,7 @@ class AddProductScreenState extends State<AddProductScreen> {
           style: TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 25,
-              color: TealColor,
+              color: primaryTealColor,
               fontFamily: 'Pacifico'),
         ),
       ),
@@ -69,21 +70,18 @@ class AddProductScreenState extends State<AddProductScreen> {
           children: [
             Container(
               child: (x == 1)
-                  ? (selectedImage == null
-                      ? null
-                      : Image.file(
+                  ? Image.file(
                           File(selectedImage!.path),
                           width: SizeConfig.defaultSize! * 30,
                           height: SizeConfig.defaultSize! * 30,
-                        ))
+                        )
                   : (x == 2)
-                      ? (selectedPhoto == null
-                          ? null
-                          : Image.file(
+                      ?
+                          Image.file(
                               File(selectedPhoto!.path),
                               width: SizeConfig.defaultSize! * 30,
                               height: SizeConfig.defaultSize! * 30,
-                            ))
+                            )
                       : null,
             ),
             Container(
@@ -197,8 +195,14 @@ class AddProductScreenState extends State<AddProductScreen> {
                         pImageUrl: _imageUrl,
                       ));
 
-                      _globalKey.currentState!.reset();
+                    //  _globalKey.currentState!.reset();
+
                     }
+                    print(_price);
+                    print(_imageUrl);
+                    print(_catogry);
+                    print(_name);
+                    print(_description);
                   },
                   child: Container(
                     height: SizeConfig.defaultSize! * 4.5,
@@ -229,7 +233,7 @@ class AddProductScreenState extends State<AddProductScreen> {
     XFile? image = (await ImagePicker().pickImage(source: ImageSource.gallery));
 
     setState(() {
-      selectedImage = image!;
+      selectedImage = image;
     });
   }
 
@@ -237,7 +241,7 @@ class AddProductScreenState extends State<AddProductScreen> {
     XFile? photo = (await ImagePicker().pickImage(source: ImageSource.camera));
 
     setState(() {
-      selectedPhoto = photo!;
+      selectedPhoto = photo;
     });
   }
 
@@ -251,14 +255,29 @@ class AddProductScreenState extends State<AddProductScreen> {
       TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() async {
         _imageUrl = await ref.getDownloadURL();
       });
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text('success'),
-      ));
+      Fluttertoast.showToast(
+        msg: "Successful addition",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 12,
+        backgroundColor: Colors.grey[200],
+        textColor: primaryPinkColor,
+        webPosition: "right",
+        fontSize: 20.0,
+      );
     } catch (ex) {
-      print("Image exception is:$ex");
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text("$ex"),
-      ));
+      Fluttertoast.showToast(
+        msg: "Image exception...: $ex",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 12,
+        backgroundColor: Colors.grey[200],
+        textColor: primaryPinkColor,
+        webPosition: "right",
+        fontSize: 20.0,
+      );
+
+      print("image exception : $ex");
     }
   }
 
@@ -280,13 +299,28 @@ class AddProductScreenState extends State<AddProductScreen> {
         });
       });
 
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text('success'),
-      ));
+      Fluttertoast.showToast(
+        msg: 'Successful addition',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 12,
+        backgroundColor: Colors.grey[200],
+        textColor: primaryPinkColor,
+        webPosition: "right",
+        fontSize: 20.0,
+      );
     } catch (ex) {
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text("Image exception...: $ex"),
-      ));
+      Fluttertoast.showToast(
+        msg: "Image exception...: $ex",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 12,
+        backgroundColor: Colors.grey[200],
+        textColor: primaryPinkColor,
+        webPosition: "right",
+        fontSize: 20.0,
+      );
+      print("image exception : $ex");
     }
   }
 }
