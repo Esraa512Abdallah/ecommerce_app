@@ -44,9 +44,9 @@ class _CartScreenState extends State<CartScreen> {
                   if (products.isNotEmpty) {
                     return Card(
 
-
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                          borderRadius: BorderRadius.circular(15),
+                      ),
                       child: Row(
                         children: [
                           Expanded(

@@ -8,6 +8,7 @@ import 'package:ecommerce_app/views/admin/order_screen.dart';
 import 'package:ecommerce_app/views/login_screen.dart';
 import 'package:ecommerce_app/views/signup_screen.dart';
 import 'package:ecommerce_app/views/user/cart_screen.dart';
+import 'package:ecommerce_app/views/user/favorite_screen.dart';
 import 'package:ecommerce_app/views/user/product_info_screen.dart';
 import 'package:ecommerce_app/views/user/user_home_screen.dart';
 import 'package:ecommerce_app/viewsModel/model_view_cart.dart';
@@ -21,9 +22,12 @@ import 'package:provider/provider.dart';
 import 'helper/app_theme.dart';
 import 'helper/constance.dart';
 
+
+import'package:ecommerce_app/helper/cache_helper.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
 
   runApp(MyApp());
 }
@@ -31,6 +35,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    CacheHelper.init();
     // TODO: implement build
     return MultiProvider(
       providers: [
@@ -50,11 +55,13 @@ class MyApp extends StatelessWidget {
           splashIconSize: 500,
           duration: 5000,
           splash: Container(
+
             decoration: BoxDecoration(
+
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: AssetImage(
-                  "assets/images/makeup1.jpg",
+                  "assets/images/makeup2.jpg",
                 ),
               ),
             ),
@@ -63,7 +70,7 @@ class MyApp extends StatelessWidget {
               child: Text(
                 "Eyeliner Store",
                 style: TextStyle(
-                  color: Colors.black,
+                    color: Colors.white,
                   fontSize: 50,
                   fontFamily: 'Pacifico',
                   fontWeight: FontWeight.bold
@@ -71,7 +78,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
-          nextScreen: LoginScreen(),
+          nextScreen: UserHomeScreen(),
           splashTransition: SplashTransition.fadeTransition,
           backgroundColor: Colors.grey[200]!,
         ),
@@ -87,11 +94,12 @@ class MyApp extends StatelessWidget {
           "CartScreen": (context) => CartScreen(),
           "OrderScreen": (context) => OrderScreen(),
           "OrderDetailsScreen": (context) => OrderDetailsScreen(),
+          "FavoriteScreen": (context) => FavoriteScreen(),
         },
 
         theme: ThemeData(
 
-          appBarTheme: AppBarTheme(
+          /*appBarTheme: AppBarTheme(
 
             color: Colors.pink.shade200,
             centerTitle: true,
@@ -104,7 +112,7 @@ class MyApp extends StatelessWidget {
             systemOverlayStyle: SystemUiOverlayStyle(
                 statusBarColor: Colors.grey[200],
                 statusBarIconBrightness: Brightness.light),
-          ),
+          ),*/
 
           accentColor: Colors.pink.shade500,
           //fontFamily: "Pacifico",
