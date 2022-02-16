@@ -118,7 +118,6 @@ class _CartScreenState extends State<CartScreen> {
 
                                           child: MaterialButton(
                                             onPressed: (){
-                                              // Navigator.pop(context);
                                               Provider.of<CartItem>(context, listen: false)
                                                   .DeleteProductFromCart(products[index]);
                                             },

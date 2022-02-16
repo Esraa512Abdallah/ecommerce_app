@@ -85,7 +85,8 @@ class _ProductInfoState extends State<ProductInfo> {
                   children: <Widget>[
                     GestureDetector(
                         onTap: () {
-                          Navigator.pop(context);
+
+                          Navigator.pushNamed(context, "UserHomeScreen");
                         },
                         child: Icon(
                           Icons.arrow_back,

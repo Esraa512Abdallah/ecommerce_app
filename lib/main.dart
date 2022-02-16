@@ -59,28 +59,30 @@ class MyApp extends StatelessWidget {
             decoration: BoxDecoration(
 
               image: DecorationImage(
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
                 image: AssetImage(
                   "assets/images/makeup2.jpg",
                 ),
               ),
             ),
             child: Container(
-              padding: EdgeInsets.only(top: 100),
-              child: Text(
-                "Eyeliner Store",
-                style: TextStyle(
-                    color: Colors.white,
-                  fontSize: 50,
-                  fontFamily: 'Pacifico',
-                  fontWeight: FontWeight.bold
+             padding: EdgeInsets.only(bottom: 100),
+              child: Center(
+                child: Text(
+                  "Eyeliner Store",
+                  style: TextStyle(
+                      color: Colors.white,
+                    fontSize: 40,
+                    fontFamily: 'Pacifico',
+                    fontWeight: FontWeight.bold
+                  ),
                 ),
               ),
             ),
           ),
-          nextScreen: UserHomeScreen(),
+          nextScreen: LoginScreen(),
           splashTransition: SplashTransition.fadeTransition,
-          backgroundColor: Colors.grey[200]!,
+          backgroundColor: Colors.black,
         ),
         routes: {
           "LoginScreen": (context) => LoginScreen(),
